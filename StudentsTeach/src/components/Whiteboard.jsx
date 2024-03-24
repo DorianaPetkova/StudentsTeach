@@ -2,18 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { db } from '../firebase';
 import { addDoc, collection, onSnapshot, deleteDoc, query, getDocs, writeBatch, doc } from 'firebase/firestore';
 
-const Whiteboard = ({ chatId }) => 
-{
+const Whiteboard = ({ chatId }) => {
   const canvasRef = useRef(null);
   const [drawing, setDrawing] = useState(false);
   const [prevPos, setPrevPos] = useState({ x: 0, y: 0 });
   const [pencilSize, setPencilSize] = useState(2);
-  const [selectedColor, setSelectedColor] = useState('#000000'); 
-  const [drawBuffer, setDrawBuffer] = useState([]); 
+  const [selectedColor, setSelectedColor] = useState('#000000');
+  const [drawBuffer, setDrawBuffer] = useState([]);
+  const [saving, setSaving] = useState(false); // New state to track saving process
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, `whiteboards/${chatId}/drawings`), (snapshot) => 
-    {
+    const unsubscribe = onSnapshot(collection(db, `whiteboards/${chatId}/drawings`), (snapshot) => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -27,30 +26,26 @@ const Whiteboard = ({ chatId }) =>
     return () => unsubscribe();
   }, [chatId]);
 
-  useEffect(() => 
-  {
+  useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.lineCap = 'round';
   }, []);
 
-  const startDrawing = (e) => 
-  {
+  const startDrawing = (e) => {
     setDrawing(true);
     const { offsetX, offsetY } = e.nativeEvent;
     setPrevPos({ x: offsetX, y: offsetY });
     setDrawBuffer([{ x: offsetX, y: offsetY }]);
   };
 
-  const endDrawing = () => 
-  {
+  const endDrawing = () => {
     setDrawing(false);
     addBatchToFirestore();
     setDrawBuffer([]);
   };
 
-  const draw = (ctx, drawing) => 
-  {
+  const draw = (ctx, drawing) => {
     ctx.strokeStyle = drawing.color;
     ctx.lineWidth = drawing.size;
     ctx.beginPath();
@@ -59,8 +54,7 @@ const Whiteboard = ({ chatId }) =>
     ctx.stroke();
   };
 
-  const handleDraw = (e) => 
-  {
+  const handleDraw = (e) => {
     if (!drawing) return;
     const { offsetX, offsetY } = e.nativeEvent;
     const canvas = canvasRef.current;
@@ -77,13 +71,11 @@ const Whiteboard = ({ chatId }) =>
     setDrawBuffer((prevBuffer) => [...prevBuffer, { x: offsetX, y: offsetY }]);
   };
 
-  const addBatchToFirestore = async () => 
-  {
-    try 
-    {
+  const addBatchToFirestore = async () => {
+    try {
       const batch = writeBatch(db);
       const drawingsRef = collection(db, `whiteboards/${chatId}/drawings`);
-      
+
       drawBuffer.forEach(({ x, y }, index) => {
         if (index === 0) return;
         const prev = drawBuffer[index - 1];
@@ -95,19 +87,17 @@ const Whiteboard = ({ chatId }) =>
           endX: x,
           endY: y,
         };
-        
+
         batch.set(doc(drawingsRef), newDrawing);
       });
-      
+
       await batch.commit();
-    } catch (error) 
-    {
+    } catch (error) {
       console.error(error);
     }
   };
 
-  const clearCanvas = async () => 
-  {
+  const clearCanvas = async () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -116,21 +106,27 @@ const Whiteboard = ({ chatId }) =>
     const drawingsQuery = query(collection(db, `whiteboards/${chatId}/drawings`));
     const drawingsSnapshot = await getDocs(drawingsQuery);
     const batch = writeBatch(db);
-    drawingsSnapshot.forEach((doc) => 
-    {
+    drawingsSnapshot.forEach((doc) => {
       batch.delete(doc.ref);
     });
     await batch.commit();
   };
 
-  const changePencilSize = (size) => 
-  {
-    setPencilSize(size);
+  const changeColor = (color) => {
+    setSelectedColor(color);
   };
 
-  const changeColor = (color) => 
-  {
-    setSelectedColor(color);
+  const handleSizeChange = (e) => {
+    setPencilSize(Number(e.target.value));
+  };
+
+  const downloadCanvas = () => {
+    const canvas = canvasRef.current;
+    const dataURL = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = 'whiteboard.png';
+    a.click();
   };
 
   return (
@@ -146,11 +142,19 @@ const Whiteboard = ({ chatId }) =>
         style={{ border: '1px solid black' }}
       />
       <div>
-        <button onClick={clearCanvas}>Clear Canvas</button>
-        <button onClick={() => changePencilSize(2)}>Small</button>
-        <button onClick={() => changePencilSize(5)}>Medium</button>
-        <button onClick={() => changePencilSize(10)}>Large</button>
-        <input type="color" onChange={(e) => changeColor(e.target.value)} value={selectedColor} />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button onClick={clearCanvas}>Clear Canvas</button>
+          <button onClick={downloadCanvas}>Save Drawing</button> {/* Save button */}
+          <input
+            type="range"
+            min="1"
+            max="50"
+            value={pencilSize}
+            onChange={handleSizeChange}
+            style={{ width: '200px', marginRight: '10px' }}
+          />
+          <input type="color" onChange={(e) => changeColor(e.target.value)} value={selectedColor} />
+        </div>
       </div>
     </div>
   );

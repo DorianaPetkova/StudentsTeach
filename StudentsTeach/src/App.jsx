@@ -1,10 +1,13 @@
 import Register from "./pages/Register";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import "./style.css"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthC";
+import BecomeBuddy from "./pages/BecomeBuddy";
+import FindBuddy from "./pages/FindBuddy";
+
 
 
 function App() {
@@ -24,6 +27,8 @@ function App() {
       <Route index element={<ProtectedRoute><Home/></ProtectedRoute>} />
       <Route path="login" element={<Login/>}/>
       <Route path="register" element={<Register/>}/>
+      <Route path="becomebuddy" element={<BecomeBuddy/>}/>
+      <Route path="findbuddy" element={<FindBuddy/>}/>
       </Route>
     </Routes>
     </BrowserRouter>

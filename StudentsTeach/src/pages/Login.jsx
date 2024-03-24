@@ -44,20 +44,20 @@ const login = () => {
       <h1>LOG IN</h1>
 
       <div className="form-group input-box">
-           <label for="InputEmail">Email</label>
-           <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required/>
-           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+           <label htmlFor="InputEmail">Email</label>
+           <input type="email" className="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required/>
+           <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
        </div>
 
        <div className="form-group input-box">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1" required/>
+                      <label htmlFor="exampleInputPassword1">Password</label>
+                      <input type="password" className="form-control" id="exampleInputPassword1" required/>
                     </div>
 
-                    <div class="form-group form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-                      <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                      <span class="reg register-link">Don't have an account? <Link to="/register">Sign up!</Link></span>
+                    <div className="form-group form-check">
+                      <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
+                      <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
+                      <span className="reg register-link">Don't have an account? <Link to="/register">Sign up!</Link></span>
                     </div>
 
 
