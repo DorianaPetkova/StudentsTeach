@@ -7,6 +7,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
+
+
 const SearchBuddy = () => {
   const [criteria, setCriteria] = useState({
     gender: "",

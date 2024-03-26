@@ -206,7 +206,7 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Josefin Sans'; 
     box-sizing: border-box;
 
 }
@@ -363,4 +363,4 @@ border-radius: 25px;
     align: center;
 }*/
 
-
+  

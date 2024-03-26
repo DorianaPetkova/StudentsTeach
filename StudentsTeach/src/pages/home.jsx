@@ -1,15 +1,20 @@
 import React from 'react'
 import SideBar from '../components/sidebar'
 import Chat from '../components/Chat'
+
 import { IoIosPersonAdd } from "react-icons/io";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useNavigate, Link } from 'react-router-dom';
+
+
 
 const Home = () => {
   return (
     
     <div className='home'>
+      
     <div className="container">
+    
       <SideBar />
       <Chat />
       {/* Adding buttons with react-icons */}

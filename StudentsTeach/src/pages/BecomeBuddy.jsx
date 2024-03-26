@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth, db, storage } from "../firebase";
+import becomebuddyimg from '../img/become-buddy-img.png';
 
 const BecomeBuddy = () => {
   const navigate = useNavigate();
@@ -69,58 +70,60 @@ const BecomeBuddy = () => {
   };
 
   return (
-    <div>
-      <h1>Become a Buddy</h1>
-      {success ? (
-        <div>
-          <p>Congrats! You just became a StudyBuddy. Now people can see your profile and ask to study together.</p>
+    <div className="wrapper container-fluid-login min-vh-100">
+      <div className='row'>
+        <div className="col-lg-7 col-md-4 col-sm-12 min-vh-100">
+          <div className="login-image">
+            <img src={becomebuddyimg} alt="" className="img-fluid"/>
+          </div>
         </div>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="gender">Gender:</label>
-            <select id="gender" name="gender" value={formData.gender} onChange={handleChange}>
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="age">Age:</label>
-            <select id="age" name="age" value={formData.age} onChange={handleChange}>
-              <option value="">Select Age Range</option>
-              <option value="13-18">13-18</option>
-              <option value="18-23">18-23</option>
-              <option value="23+">23+</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="subjectToTeach">Subject to Teach:</label>
-            <select id="subjectToTeach" name="subjectToTeach" value={formData.subjectToTeach} onChange={handleChange}>
-              <option value="">Select Subject to Teach</option>
-              <option value="Arts&Culture">Arts&Culture</option>
-            <option value="Biology">Biology</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Computer Science">Computer Science</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Engineering">Engineering</option>
-            <option value="Food&nutrition">Food&nutrition</option>
-            <option value="History">History</option>
-            <option value="Language">Language</option>
-            <option value="Law">Law</option>
-            <option value="Literature">Literature</option>
-            <option value="Math">Math</option>
-            <option value="Medicine">Medicine</option>
-            <option value="Music">Music</option>
-            <option value="Philosophy">Philosophy</option>
-            <option value="Physics">Physics</option>
-            <option value="Social Science">Social Science</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="preferredLanguage">Preferred Language:</label>
-            <select id="preferredLanguage" name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange}>
+        <div className='col-lg-4 col-md-8 col-sm-'>
+          <form onSubmit={handleSubmit}>
+            <h1>Become a Buddy</h1>
+            <div className="form-group input-box">
+              <label htmlFor="gender">Gender:</label>
+              <select id="gender" name="gender" value={formData.gender} onChange={handleChange}>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div className="form-group input-box">
+              <label htmlFor="age">Age:</label>
+              <select id="age" name="age" value={formData.age} onChange={handleChange}>
+                <option value="">Select Age Range</option>
+                <option value="13-18">13-18</option>
+                <option value="18-23">18-23</option>
+                <option value="23+">23+</option>
+              </select>
+            </div>
+            <div className="form-group input-box">
+              <label htmlFor="subjectToTeach">Subject to Teach:</label>
+              <select id="subjectToTeach" name="subjectToTeach" value={formData.subjectToTeach} onChange={handleChange}>
+                <option value="">Select Subject to Teach</option>
+                <option value="Arts&Culture">Arts&Culture</option>
+                <option value="Biology">Biology</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Food&nutrition">Food&nutrition</option>
+                <option value="History">History</option>
+                <option value="Language">Language</option>
+                <option value="Law">Law</option>
+                <option value="Literature">Literature</option>
+                <option value="Math">Math</option>
+                <option value="Medicine">Medicine</option>
+                <option value="Music">Music</option>
+                <option value="Philosophy">Philosophy</option>
+                <option value="Physics">Physics</option>
+                <option value="Social Science">Social Science</option>
+              </select>
+            </div>
+            <div className="form-group input-box">
+              <label htmlFor="preferredLanguage">Preferred Language:</label>
+              <select id="preferredLanguage" name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange}>
               <option value="">Select Preferred Language</option>
               <option value="AKAN">AKAN</option>
               <option value="AMHARIC">AMHARIC</option>
@@ -175,12 +178,16 @@ const BecomeBuddy = () => {
               <option value="YORUBA">YORUBA</option>
               <option value="ZULU">ZULU</option>
 
-            </select>
-          </div>
-          <button type="submit" disabled={loading}>Submit</button>
-          {loading && <p>Submitting...</p>}
-        </form>
-      )}
+              </select>
+            </div>
+            <button type="submit" className="button btn btn-primary login-btn" disabled={loading}>
+              {loading ? "Submitting..." : "BECOME BUDDY"}
+            </button>
+            
+          </form>
+          <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
+        </div>
+      </div>
     </div>
   );
 };
