@@ -38,54 +38,46 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
-    
-    //check whether the chat exists, if not create
+    // Check whether the chat exists
     const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
-    try 
-    {
-      const res = await getDoc(doc(db, "chats", combinedId));
-
-      if (!res.exists()) 
-      {
-        //create a chat in chats collection
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
-
-        //create user chats
+      currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
+    
+    try {
+      const chatDocRef = doc(db, "chats", combinedId);
+      const chatDocSnap = await getDoc(chatDocRef);
+  
+      // If the chat document does not exist, create it
+      if (!chatDocSnap.exists()) {
+        // Create a chat in chats collection
+        await setDoc(chatDocRef, { messages: [] });
+  
+        // Create user chats
         await updateDoc(doc(db, "userChats", currentUser.uid), {
-          [combinedId + ".userInfo"]: 
-          {
+          [combinedId + ".userInfo"]: {
             uid: user.uid,
             displayName: user.displayName,
-            photoURL : user.photoURL,
-           
+            photoURL: user.photoURL,
           },
-          [combinedId + ".date"]: serverTimestamp()
+          [combinedId + ".date"]: serverTimestamp(),
         });
-
-
-        await updateDoc(doc(db, "userChats", user.uid), 
-        {
-          [combinedId + ".userInfo"]: 
-          {
+  
+        await updateDoc(doc(db, "userChats", user.uid), {
+          [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
             photoURL: currentUser.photoURL,
           },
-          [combinedId + ".date"]: serverTimestamp()
+          [combinedId + ".date"]: serverTimestamp(),
         });
+      } else {
+        console.log("Chat already exists");
       }
-    } catch (error) 
-    {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error("Error creating user:", errorCode, errorMessage);
+    } catch (error) {
+      console.error("Error creating chat:", error);
     }
-
+  
     setUser(null);
-    setUsername("")
+    setUsername("");
   };
 
 

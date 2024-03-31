@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthC";
 import BecomeBuddy from "./pages/BecomeBuddy";
 import FindBuddy from "./pages/FindBuddy";
+import ServerPopup from "./components/ServerPopup";
 
 
 
@@ -29,6 +30,7 @@ function App() {
       <Route path="register" element={<Register/>}/>
       <Route path="becomebuddy" element={<BecomeBuddy/>}/>
       <Route path="findbuddy" element={<FindBuddy/>}/>
+      <Route path="serverpopup" element={<ServerPopup/>}/>
       </Route>
     </Routes>
     </BrowserRouter>
