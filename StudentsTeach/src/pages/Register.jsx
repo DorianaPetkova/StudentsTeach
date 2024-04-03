@@ -263,7 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     </div>
-
     <div className="form-group col-6">
         <label htmlFor="inputAvatar">Avatar</label>
         <span className="custom-file-upload">
@@ -271,13 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         </span>
       </div>
-
-
         </div>
-
-
-
-
 
         {/*<input required style={{ display: "none" }} type="file" id="file" name="file" />
         <label htmlFor="file">
@@ -289,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
             <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
             <span className="reg register-link">Already have an account? <Link to="/login">Log In!</Link></span>
+            
           </div>
 
           <button type="submit" className="btn btn-primary signup-btn " disabled={loading}>SIGN UP</button>

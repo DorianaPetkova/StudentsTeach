@@ -21,13 +21,13 @@ export const ChatContextProvider = ({ children }) => {
             currentUser.uid > action.payload.uid
               ? currentUser.uid + action.payload.uid
               : action.payload.uid + currentUser.uid,
-          server: {}, // Reset server info when changing to a user chat
+          server: {}, 
         };
       case "CHANGE_SERVER":
         return {
           server: action.payload,
-          chatId: action.payload.id, // Use server id as chatId for server chat
-          user: {}, // Reset user info when changing to a server chat
+          chatId: action.payload.id, 
+          user: {}, 
         };
       default:
         return state;

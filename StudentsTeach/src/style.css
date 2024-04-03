@@ -234,15 +234,13 @@ body{
     margin: 0px 50px;
 }
 .col-lg-4.col-md-5.col-sm-12.fp{
-    margin-top: 240px;
+    margin-top: 310px;
 }
 .container-fluid-advantages{
     line-height: 40px;
     margin: 240px 50px 300px 50px;
 }
-.advantages-list{
-    text-align: center;
-}
+
 .form {
     width: 100px;
 }
@@ -358,14 +356,34 @@ border-radius: 25px;
 .advantages-list{
     margin-top: 50px;
 }
-/*
-.loop{
+
+/*.loop{
     align: center;
-}*/
+}/*
 
   
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*MY BULLSHIT*/
 .react-calendar { 
 	width: 400px;
 	max-width: 100%;

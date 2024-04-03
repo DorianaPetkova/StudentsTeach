@@ -46,7 +46,7 @@ const login = () => {
       <div className="form-group input-box">
            <label htmlFor="InputEmail">Email</label>
            <input type="email" className="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required/>
-           <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+           <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else... Maybe.</small>
        </div>
 
        <div className="form-group input-box">

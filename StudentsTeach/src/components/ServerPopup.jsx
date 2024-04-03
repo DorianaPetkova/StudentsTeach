@@ -52,7 +52,9 @@ const ServerPopup = ({ onClose }) => {
 
   const handleCreateServer = async () => {
     try {
-      const serverId = [currentUser.uid, ...selectedUsers.map((user) => user.id)].sort().join('');
+      // Generate a unique server ID using a combination of user IDs and a timestamp
+      const timestamp = new Date().getTime();
+      const serverId = `${currentUser.uid}_${timestamp}`;
   
       // Upload icon to Firebase Storage
       const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);

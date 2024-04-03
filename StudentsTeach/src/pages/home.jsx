@@ -4,6 +4,7 @@ import SideBar from '../components/sidebar';
 import Chat from '../components/Chat';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { FaBookBookmark, FaHandshakeAngle } from 'react-icons/fa6';
+import { FaPaintBrush } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 
@@ -24,6 +25,7 @@ const Home = () => {
         <div className="buttons">
           <button><IoIosPersonAdd /> <Link to="/findbuddy">Findbuddy</Link></button>
           <button><FaBookBookmark /> <Link to="/becomebuddy">Becomebuddy</Link></button>
+          <button><FaPaintBrush /> <Link to="/profile">Change Profile</Link></button>
          <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
       {showPopup && <ServerPopup onClose={togglePopup} />}
         </div>

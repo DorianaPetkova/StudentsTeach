@@ -8,6 +8,7 @@ import { AuthContext } from "./context/AuthC";
 import BecomeBuddy from "./pages/BecomeBuddy";
 import FindBuddy from "./pages/FindBuddy";
 import ServerPopup from "./components/ServerPopup";
+import Profile from "./components/Profile";
 
 
 
@@ -31,6 +32,7 @@ function App() {
       <Route path="becomebuddy" element={<BecomeBuddy/>}/>
       <Route path="findbuddy" element={<FindBuddy/>}/>
       <Route path="serverpopup" element={<ServerPopup/>}/>
+      <Route path="profile" element={<Profile/>}/>
       </Route>
     </Routes>
     </BrowserRouter>

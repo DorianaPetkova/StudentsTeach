@@ -3,12 +3,12 @@ import { AuthContext } from "../context/AuthC";
 import { ChatContext } from "../context/ChatC";
 import { db, storage } from "../firebase";
 import { doc, onSnapshot, getDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage"; // Import ref and getDownloadURL
+import { ref, getDownloadURL } from "firebase/storage"; 
 
 const Chats = () => {
   const [servers, setServers] = useState([]);
   const [chats, setChats] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the popup
+  const [showPopup, setShowPopup] = useState(false); 
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
@@ -34,7 +34,6 @@ const Chats = () => {
         const querySnapshot = await getDocs(q);
         const serverData = await Promise.all(querySnapshot.docs.map(async (doc) => {
           const server = { id: doc.id, ...doc.data() };
-          // Fetch the server icon URL from Firebase Storage
           if (server.icon) {
             const iconRef = ref(storage, server.icon);
             const iconURL = await getDownloadURL(iconRef);
@@ -62,20 +61,29 @@ const Chats = () => {
   return (
     <div className="chats">
       <div className="user-chats">
-        {chats && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
-          <div
-            className="userChat"
-            key={chat[0]}
-            onClick={() => handleSelect(chat[1].userInfo)}
-          >
-            <span>{chat[1].userInfo.displayName}</span>
-            <p>{chat[1].lastMessage?.text}</p>
-            <img src={chat[1].userInfo.photoURL} alt="" className="icon" /> {/* Added class="icon" */}
-            <div className="userChatInfo"></div>
-          </div>
-        ))}
+        {chats && Object.entries(chats)
+          .sort((a, b) => b[1].date - a[1].date)
+          .map((chat) => (
+            chat[1].userInfo && // Ensure userInfo exists
+            <div
+              className="userChat"
+              key={chat[0]}
+              onClick={() => handleSelect(chat[1].userInfo)}
+            >
+              <>
+                <span>{chat[1].userInfo.displayName}</span>
+                <p>{chat[1].lastMessage?.text}</p>
+                <img
+                  src={chat[1].userInfo.photoURL}
+                  alt=""
+                  className="icon"
+                />
+                <div className="userChatInfo"></div>
+              </>
+            </div>
+          ))}
       </div>
-      <hr className="chat-divider" /> {/* Divider line */}
+      <hr className="chat-divider" />
       <div className="server-chats">
         {servers.map((server) => (
           <div
@@ -84,8 +92,7 @@ const Chats = () => {
             onClick={() => handleSelectServer(server)}
           >
             <span>{server.name}</span>
-            {/* Render additional server information here */}
-            {server.iconURL && <img src={server.iconURL} alt="Server Icon" className="icon" />} {/* Added class="icon" */}
+            {server.iconURL && <img src={server.iconURL} alt="Server Icon" className="icon" />}
           </div>
         ))}
       </div>
