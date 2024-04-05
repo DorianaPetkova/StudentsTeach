@@ -47,13 +47,13 @@
     <section>
         <h2>How to run the project:</h2>
         <ol>
-            <li>Requirements for running the project : Node.js</li>
-            <li>1. Clone the project to your local machine</li>
-            <li>2. Open the project using your desired environment</li>
-            <li>3. Write in the console: npm install (that installs all the needed dependencies)</li>
-            <li>4. Write in the console: npm i vite (that installs everything needed to run the react application)</li>
-            <li>5. After the installation is complete run: npm run dev</li>
-            <li>6. Open in desired browser and enjoy!</li>
+            <p>Requirements for running the project : Node.js</p>
+            <li> Clone the project to your local machine</li>
+            <li>Open the project using your desired environment</li>
+            <li> Write in the console: npm install (that installs all the needed dependencies)</li>
+            <li> Write in the console: npm i vite (that installs everything needed to run the react application)</li>
+            <li>After the installation is complete run: npm run dev</li>
+            <li> Open in desired browser and enjoy!</li>
         </ol>
     </section>
     <section>
