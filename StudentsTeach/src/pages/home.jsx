@@ -19,18 +19,22 @@ const Home = () => {
 
   return (
     <div className='home'>
+      <div className="buttons">
+          <p><button className="button btn-primary homep-btn"> <Link to="/findbuddy"><IoIosPersonAdd/></Link></button></p>
+          <p><button className="button btn-primary homep-btn"> <Link to="/becomebuddy"><FaBookBookmark/></Link></button></p>
+          <p><button className="button btn-primary homep-btn"> <Link to="/profile"><FaPaintBrush/></Link></button></p>
+          <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
+      {showPopup && <ServerPopup onClose={togglePopup} />}
+        </div>
       <div className="container">
         <SideBar />
         <Chat />
-        <div className="buttons">
-          <button><IoIosPersonAdd /> <Link to="/findbuddy">Findbuddy</Link></button>
-          <button><FaBookBookmark /> <Link to="/becomebuddy">Becomebuddy</Link></button>
-          <button><FaPaintBrush /> <Link to="/profile">Change Profile</Link></button>
-         <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
+      </div>
+      <div className="buttons">
+          
+          <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
       {showPopup && <ServerPopup onClose={togglePopup} />}
         </div>
-        
-      </div>
     </div>
   );
 };

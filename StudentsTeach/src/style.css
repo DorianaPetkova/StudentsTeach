@@ -6,22 +6,24 @@
 	justify-content: center;
 }
 .home .container {
+	margin-top: 10px;
+	margin-bottom: 10px;
 	border: 1px solid white;
 	border-radius: 10px;
-	width: 65%;
-	height: 80%;
+	width: 200%;
+	height: 100%;
 	display: flex;
 	overflow: hidden;
 }
 .home .container .sidebar {
 	flex: 1;
-	background-color: #3e3c61;
+	background-color: #21282E;
 	position: relative;
 }
 .home .container .sidebar .navbar {
 	display: flex;
 	align-items: center;
-	background-color: #2f2d52;
+	background-color: #343A40;
 	height: 50px;
 	padding: 10px;
 	justify-content: space-between;
@@ -36,18 +38,13 @@
 }
 .home .container .sidebar .navbar .user img {
 	background-color: #ddddf7;
-	height: 24px;
-	width: 24px;
+	height: 28px;
+	width: 28px;
+	margin-top: -5px;
 	border-radius: 50%;
 	object-fit: cover;
 }
-.home .container .sidebar .navbar .user button {
-	background-color: #5d5b8d;
-	color: #ddddf7;
-	font-size: 10px;
-	border: none;
-	cursor: pointer;
-}
+
 .home .container .sidebar .search {
 	border-bottom: 1px solid gray;
 }
@@ -75,8 +72,8 @@
 	background-color: #2f2d52;
 }
 .home .container .sidebar .userChat img {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	object-fit: cover;
 }
@@ -89,11 +86,17 @@
 	color: lightgray;
 }
 .home .container .chat {
-	flex: 2;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position:relative;
 }
 .home .container .chat .chatInfo {
+	z-index: 100;
 	height: 50px;
-	background-color: #5d5b8d;
+	background-color: #343A40;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -112,7 +115,7 @@
 .home .container .chat .messages {
 	background-color: #ddddf7;
 	padding: 10px;
-	height: calc(100% - 160px);
+	height: calc(100% - 100px);
 	overflow: scroll;
 }
 .home .container .chat .messages .message {
@@ -144,7 +147,7 @@
   }
 
 .home .container .chat .messages .message .messageContent p {
-	
+	color: #21282E;
 	background-color: white;
 	padding: 10px 20px;
 	border-radius: 0px 10px 10px 10px;
@@ -199,6 +202,104 @@
 	background-color: #8da4f1;
 	cursor: pointer;
 }
+.home.buttons{
+justify-content: center;
+}
+.button.btn-primary.homep-btn{
+	width: 45px;
+    height: 45px;
+    background-color: #343A40;
+    border: none;
+    outline: none;
+	color: #eeeeee;
+	margin-top: 50px;
+	margin-left: 10px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+.home .container .chat .input .send button {
+	border-radius: 25px;
+}
+
+.buttons{
+	border-radius: 25px;
+}
+
+.reg.register-link{
+	margin-top: 50px;
+	margin-left: 120px;
+}
+.col-lg-4.col-md-8.col-sm-{
+margin-top: -30px;
+}
+.user{
+	margin-top: 670px;
+}
+.btn.logout{
+	margin-top: -5px;
+	width: 90px;
+	height: 30px;
+	border-radius: 30px;
+}
+.home .container .sidebar .navbar .user button {
+	font-size: 13px;
+	background-color: #23BEB3;
+	color: #ddddf7;
+	border: none;
+	cursor: pointer;
+}
+.dm{
+	margin-top: 10px;
+	text-align: center;
+	text-decoration: underline;
+}
+.gc{
+	text-align: center;
+	text-decoration: underline;
+}
+svg:not(:root) {
+    margin-top: 3px;
+    overflow: hidden;
+}
+.file-input-1{
+    width: calc(100% );
+    justify-content: left;
+}
+.createServ{
+    border-radius: 25px;
+    width: 160px;
+    height: 40px;
+    border: none;
+    color: #fff;
+    background-color: #52d5cc;
+}
+.profile{
+margin-top: 240px;
+margin-left: 210px;
+}
+.change-prfile-items{
+    font-size: 19px;
+    padding-right: 10px;
+    text-decoration: underline;
+}
+.examplee{
+    font-weight: 400;
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -206,12 +307,12 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Josefin Sans'; 
+    font-family: 'Josefin Sans', sans-serif;
     box-sizing: border-box;
 
 }
 body{
-    color: #ffffff;
+    color: #f1f1f1;
     background-color: #21282E;
 }
 .first-page-accent{
@@ -219,7 +320,11 @@ body{
     font-size: 41px;
     font-family: 'Kalam', sans-serif;
 }
-
+.navbar.navbar-expand-lg.navbar-dark.bg-dark{
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
 .container-fluid-signup{
     margin-top: 180px;
     margin-left: 50px;
@@ -253,6 +358,9 @@ body{
     margin-top: -180px;
     display: flex;
     align-items: center;
+}
+.img-fluid {
+    margin-top: 100px;
 }
 .signup-image{
     width: auto;
@@ -292,6 +400,7 @@ body{
     font-weight: 500;
 }
 .btn.btn-primary.becomebuddy-btn{
+	margin-top: 15px;
     width: 280px;
     height: 45px;
     background-color: #4a97da;
@@ -301,6 +410,7 @@ body{
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
+	margin-left: 90px;
 }
 .btn.btn-primary.signup-btn.nb{
     width: 180px;
@@ -327,17 +437,22 @@ body{
     font-weight: 500;
 }
 .form-group.form-check {
-    display: flex; /* Используем flexbox */
-    align-items: center; /* Выравниваем элементы по вертикали */
-    justify-content: space-between; /* Распределяем пространство между элементами */
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
 }
 
 .form-check-label {
-    margin-bottom: 0; /* Убираем отступ снизу у label */
+    margin-bottom: 0; 
 }
 
 .form-control
 {
+border-radius: 25px;
+}
+.form-control1
+{
+    width: 400px;
 border-radius: 25px;
 }
 .input-group-text{
@@ -353,15 +468,142 @@ border-radius: 25px;
 .navbar-brand{
     margin-left: 40px;
 }
+
+.loop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 44%;
+}
+.whiteboard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 44%;
+}
+.check{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 44%;
+}
+.text-center{
+    margin-bottom: 120px;
+    font-size: 40px;
+}
+.img-fluid{
+    margin-top: -90px;
+}
 .advantages-list{
-    margin-top: 50px;
+    text-align: center;
+    margin-top: 100px;
+    font-size: 26px;
+    font-weight: 300;
+}
+.about-service{
+    text-align: center;
+    margin-top: 140px;
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-bottom: 140px;
+    font-size: 26px;
+    font-weight: 300;
+    color: #e6e6e6;
+}
+.accent-abt{
+    color: #fdb74d;
+    font-weight: 400;
+}
+.expectations{
+    margin-left: 50px;
+    margin-right: 50px;
+    font-size: 28px;
+    font-weight: 350;
+    text-align: center;
+}
+.expectations-list{
+    margin-left: 160px;
+    margin-right: 160px;
+    font-size: 26px;
+    font-weight: 300;
+    text-align: left;
+}
+.container-fluid-expect{
+    margin-bottom: 200px;
+}
+.accent-wtex{
+    color: #dfc091;
+}
+.custom-file-upload input[type="file"] {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .custom-file-upload input[type="file"]::before {
+    content: 'Choose File';
+    display: inline-block;
+    border-radius: 5px;
+    color: #464646;
+    cursor: pointer;
+  }
+  
+  /*.custom-file-upload input[type="file"]::after {
+    content: attr(data-file-name);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }*/
+  
+  
+  .custom-file-upload input[type="file"]::after {
+    content: attr(data-file-name); /* Отображение имени файла */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+    top: 8px;
+    left: 0; /* Прижимаем к краю инпута */
+    margin-left: 5px; /* Добавляем небольшой отступ от инпута */
+  }
+  .custom-file-upload input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .custom-file-upload.file-selected input[type="file"]::before {
+    display: none;
+  }
+
+/*.custom-file-upload input[type="file"]::before {
+   
+    display: inline-block;
+    border-radius: 5px;
+    color: #464646;
+    cursor: pointer;
+  }  
+  .custom-file-upload input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+  }*/
+
+  .line{
+    background-color: #242c32;
+  }
+  .form-check{
+    justify-content: space-between;
+}
+.collapse.navbar-collapse{
+    margin-right: 50px;
 }
 
-/*.loop{
-    align: center;
-}/*
 
-  
+
+
 
 
 
@@ -496,9 +738,9 @@ border-radius: 25px;
 .close {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 20px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 30px;
     color: #000;
 }
 

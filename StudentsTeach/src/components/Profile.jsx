@@ -71,13 +71,13 @@ const Profile = () => {
     };
 
     return (
-        <div className="profile">
+        <div className="profile"> 
             {userData && (
                 <div>
                     <div>
-                        <label htmlFor="displayName">Display Name:</label>
+                        <label htmlFor="displayName" className='change-prfile-items'>Username:</label>
                         {editMode ? (
-                            <input
+                            <input 
                                 type="text"
                                 id="displayName"
                                 name="displayName"
@@ -85,15 +85,15 @@ const Profile = () => {
                                 onChange={handleInputChange}
                             />
                         ) : (
-                            <span>{userData.displayName}</span>
+                            <span className='examplee'>{userData.displayName}</span>
                         )}
                     </div>
                     <div>
-                        <label htmlFor="email">Email:</label>
-                        <span>{userData.email}</span>
+                        <label htmlFor="email" className='change-prfile-items'>Email:</label>
+                        <span className='examplee'>{userData.email}</span>
                     </div>
                     <div>
-    <label htmlFor="country">Country:</label>
+    <label htmlFor="country" className='change-prfile-items'>Country:</label>
     {editMode ? (
         <select
             id="country"
@@ -210,11 +210,11 @@ const Profile = () => {
   <option value="Marshall Islands">Marshall Islands</option>
         </select>
     ) : (
-        <span>{userData.country}</span>
+        <span className='examplee'>{userData.country}</span>
     )}
 </div>
 <div>
-    <label htmlFor="subject">Subject:</label>
+    <label htmlFor="subject" className='change-prfile-items'>Subject:</label>
     {editMode ? (
         <select
             id="subject"
@@ -242,11 +242,11 @@ const Profile = () => {
             <option value="Social Science">Social Science</option>
         </select>
     ) : (
-        <span>{userData.subject}</span>
+        <span className='examplee'>{userData.subject}</span>
     )}
 </div>
                     <div>
-                        <label htmlFor="photoURL">Avatar:</label>
+                        <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
                         {editMode ? (
                             <>
                                 <input type="file" id="avatar" name="avatar" onChange={handleAvatarChange} />
@@ -263,9 +263,11 @@ const Profile = () => {
                             <button onClick={() => setEditMode(true)}>Edit</button>
                         )}
                     </div>
+
                 </div>
             )}
         </div>
+        
     );
 };
 

@@ -60,6 +60,7 @@ const Chats = () => {
 
   return (
     <div className="chats">
+      <p className="dm">DM's</p>
       <div className="user-chats">
         {chats && Object.entries(chats)
           .sort((a, b) => b[1].date - a[1].date)
@@ -71,19 +72,22 @@ const Chats = () => {
               onClick={() => handleSelect(chat[1].userInfo)}
             >
               <>
-                <span>{chat[1].userInfo.displayName}</span>
-                <p>{chat[1].lastMessage?.text}</p>
-                <img
+              <img
                   src={chat[1].userInfo.photoURL}
                   alt=""
                   className="icon"
                 />
+                <span>{chat[1].userInfo.displayName}</span>
+                <p>{chat[1].lastMessage?.text}</p>
+                
                 <div className="userChatInfo"></div>
               </>
             </div>
           ))}
       </div>
       <hr className="chat-divider" />
+      <p className="gc">Group chats</p>
+
       <div className="server-chats">
         {servers.map((server) => (
           <div
@@ -91,8 +95,9 @@ const Chats = () => {
             key={server.id}
             onClick={() => handleSelectServer(server)}
           >
+             {server.iconURL && <img src={server.iconURL} alt="Server Icon" className="icon" />}
             <span>{server.name}</span>
-            {server.iconURL && <img src={server.iconURL} alt="Server Icon" className="icon" />}
+           
           </div>
         ))}
       </div>

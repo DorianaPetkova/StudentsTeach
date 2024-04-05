@@ -1,24 +1,22 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from '../context/AuthC';
 import { ChatContext } from '../context/ChatC';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 const Message = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
   const [senderInfo, setSenderInfo] = useState(null);
+  const [liked, setLiked] = useState(false); // State to track whether the message is liked
   const ref = useRef();
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
 
-    // Fetch sender information from Firestore
     const fetchSenderInfo = async () => {
       try {
-        // Check if the chat is a server chat or a DM
         if (data.server.id) {
-          // Fetch sender's information from Firestore using senderId
           const senderDocRef = doc(db, 'users', message.senderId);
           const senderDocSnap = await getDoc(senderDocRef);
           if (senderDocSnap.exists()) {
@@ -27,7 +25,6 @@ const Message = ({ message }) => {
             console.error("Sender document does not exist");
           }
         } else {
-          // For DMs, use the sender information stored in the data context
           setSenderInfo(data.user);
         }
       } catch (error) {
@@ -38,8 +35,35 @@ const Message = ({ message }) => {
     fetchSenderInfo();
   }, [data.server.id, data.user, message.senderId]);
 
+  const handleDoubleClick = async (e) => {
+    e.preventDefault(); // Prevent text selection
+    const combinedId =
+      currentUser.uid > message.senderId ? currentUser.uid + message.senderId : message.senderId + currentUser.uid;
+    console.log("Combined ID:", combinedId); // Log combinedId to check its value
+    const messageRef = doc(db, `chats/${combinedId}/messages`, message.id);
+    console.log("Message Ref:", messageRef); // Log messageRef to check its value
+    try {
+      const messageDocSnap = await getDoc(messageRef);
+      console.log("Message Doc Snap:", messageDocSnap); // Log messageDocSnap to check its value
+      if (messageDocSnap.exists()) {
+        console.log("Message Document Exists:", messageDocSnap.exists()); // Log the existence of the message document
+        const messageData = messageDocSnap.data();
+        const updatedLikes = liked ? messageData.likes - 1 : messageData.likes + 1;
+        await updateDoc(messageRef, { likes: updatedLikes });
+        setLiked(!liked);
+      } else {
+        console.error("Message document does not exist");
+      }
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
   return (
-    <div ref={ref} className={`message ${message.senderId === currentUser.uid && "owner"}`}>
+    <div 
+      ref={ref} 
+      className={`message ${message.senderId === currentUser.uid && "owner"}`} 
+      onDoubleClick={handleDoubleClick}
+    >
       <div className="messageInfo">
         {senderInfo && (
           <img
@@ -49,8 +73,9 @@ const Message = ({ message }) => {
         )}
       </div>
       <div className="messageContent">
-        {message.text && <p>{message.text}</p>}
+        {message.text && <p onDoubleClick={handleDoubleClick}>{message.text}</p>}
         {message.img && <img src={message.img} alt="Sent Image" />}
+        {message.likes && <span className="like-count">{message.likes} Likes</span>}
       </div>
     </div>
   );

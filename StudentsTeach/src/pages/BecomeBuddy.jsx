@@ -73,16 +73,17 @@ const BecomeBuddy = () => {
     <div className="wrapper container-fluid-login min-vh-100">
       <div className='row'>
         <div className="col-lg-7 col-md-4 col-sm-12 min-vh-100">
-          <div className="login-image">
+          <div className="becomebuddy-image">
             <img src={becomebuddyimg} alt="" className="img-fluid"/>
           </div>
         </div>
+
         <div className='col-lg-4 col-md-8 col-sm-'>
           <form onSubmit={handleSubmit}>
             <h1>Become a Buddy</h1>
             <div className="form-group input-box">
               <label htmlFor="gender">Gender:</label>
-              <select id="gender" name="gender" value={formData.gender} onChange={handleChange}>
+              <select id="gender" className="form-control" name="gender" value={formData.gender} onChange={handleChange}>
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -91,7 +92,7 @@ const BecomeBuddy = () => {
             </div>
             <div className="form-group input-box">
               <label htmlFor="age">Age:</label>
-              <select id="age" name="age" value={formData.age} onChange={handleChange}>
+              <select id="age" className="form-control" name="age" value={formData.age} onChange={handleChange}>
                 <option value="">Select Age Range</option>
                 <option value="13-18">13-18</option>
                 <option value="18-23">18-23</option>
@@ -100,7 +101,7 @@ const BecomeBuddy = () => {
             </div>
             <div className="form-group input-box">
               <label htmlFor="subjectToTeach">Subject to Teach:</label>
-              <select id="subjectToTeach" name="subjectToTeach" value={formData.subjectToTeach} onChange={handleChange}>
+              <select id="subjectToTeach" className="form-control" name="subjectToTeach" value={formData.subjectToTeach} onChange={handleChange}>
                 <option value="">Select Subject to Teach</option>
                 <option value="Arts&Culture">Arts&Culture</option>
                 <option value="Biology">Biology</option>
@@ -123,7 +124,7 @@ const BecomeBuddy = () => {
             </div>
             <div className="form-group input-box">
               <label htmlFor="preferredLanguage">Preferred Language:</label>
-              <select id="preferredLanguage" name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange}>
+              <select id="preferredLanguage" className="form-control" name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange}>
               <option value="">Select Preferred Language</option>
               <option value="AKAN">AKAN</option>
               <option value="AMHARIC">AMHARIC</option>
@@ -180,7 +181,7 @@ const BecomeBuddy = () => {
 
               </select>
             </div>
-            <button type="submit" className="button btn btn-primary login-btn" disabled={loading}>
+            <button type="submit" className="button btn btn-primary becomebuddy-btn" disabled={loading}>
               {loading ? "Submitting..." : "BECOME BUDDY"}
             </button>
             

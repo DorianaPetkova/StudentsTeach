@@ -142,7 +142,12 @@ const Input = () => {
   
   
     
-    
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevents adding new line
+      handleSend(); // Call handleSend function when Enter key is pressed
+    }
+  };
 
 
   return (
@@ -151,6 +156,7 @@ const Input = () => {
        placeholder='Message user' 
        onChange={(e) => setText(e.target.value)}
        value={text}
+       onKeyDown={handleKeyDown} // Add the onKeyDown event handler here
        />
       <div className="send">
       <img src={attachFile} alt="" />
@@ -164,7 +170,7 @@ const Input = () => {
         <label htmlFor="file">
         <img src={attachImage} alt="" />
         </label >
-        <button onClick={handleSend}>Send</button>
+        <button className="btnSend" onClick={handleSend}>Send</button>
       </div>
     </div>
   )

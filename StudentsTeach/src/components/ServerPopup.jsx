@@ -99,10 +99,10 @@ const ServerPopup = ({ onClose }) => {
       <div className="close" onClick={onClose}>&times;</div>
       <h2>Create Server</h2>
       <input type="text" placeholder="Server Name" value={serverName} onChange={handleServerNameChange} />
-      <div className="file-input">
-        <label htmlFor="file">Choose Icon</label>
+      <div className="file-input-1">
+       
         <input type="file" accept="image/*" id="file" onChange={handleIconChange} />
-        <span>{iconName}</span>
+       
       </div>
       <input
         type="text"
@@ -132,7 +132,7 @@ const ServerPopup = ({ onClose }) => {
           </ul>
         </div>
       )}
-      <button onClick={handleCreateServer}>Create Server</button>
+      <button className='createServ' onClick={handleCreateServer}>Create Server</button>
     </div>
   );
 };

@@ -10,12 +10,12 @@ const NavBar = () => {
   return (
     <div className='navbar'>
       <span className='Logo'>
-        StudentsTeach
+        StudentsTEACH
       </span>
       <div className='user'>
       <img src={currentUser.photoURL} alt="" />
         <span>{currentUser.displayName}</span>
-        <button onClick={()=>signOut(auth)}>logout</button>
+        <button className='btn logout' onClick={()=>signOut(auth)}>Log out</button>
       </div>
       
     </div>
