@@ -137,12 +137,12 @@ const CalendarProp = () => {
                     <div className="modal-content">
                         <h2>Create an Event</h2>
                         <input
-                            type="text"
+                            type="text" className='form-control'
                             value={eventText}
                             onChange={(e) => setEventText(e.target.value)}
                             placeholder="Enter event description"
                         />
-                        <button onClick={handleEventSubmit}>Create</button>
+                        <button onClick={handleEventSubmit} className='btn-calendar-create'>Create</button>
                     </div>
                 </div>
             )}

@@ -48,8 +48,12 @@ const FindBuddy = () => {
   
   return (
     <div className="find-buddy">
-      <h2>Find Buddies</h2>
-      <div className="form-group input-box">
+     
+      <div className="wrapper container-fluid-login">
+      <div className='row'>
+        <div className="col-lg-5 col-md-6 col-sm-12">
+          <h2>Find Buddies</h2>
+         <div className="form-group input-box">
         <label htmlFor="preferredLanguage">Preferred Language:</label>
         <select
           className="form-control"
@@ -196,7 +200,9 @@ const FindBuddy = () => {
       >
         Search
       </button>
+      </div>
 
+      <div className="col-lg-7 col-md-6 col-sm-12">
       <div>
         {searchResults.map((result, index) => (
           <div key={index} className="search-result">
@@ -211,11 +217,14 @@ const FindBuddy = () => {
               {/* Add more fields here if needed */}
             </div>
           </div>
-          
         ))}
-         <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
       </div>
       
+      </div>
+
+         <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
+      </div>
+      </div>
     </div>
   );
 };
