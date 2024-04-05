@@ -14,6 +14,7 @@
 	height: 100%;
 	display: flex;
 	overflow: hidden;
+    
 }
 .home .container .sidebar {
 	flex: 1;
@@ -32,11 +33,12 @@
 .home .container .sidebar .navbar .logo {
 	font-weight: bold;
 }
-.home .container .sidebar .navbar .user {
+.home .container .sidebar .navbar1 .user {
 	display: flex;
+    margin-left: 7px;
 	gap: 10px;
 }
-.home .container .sidebar .navbar .user img {
+.home .container .sidebar .navbar1 .user img {
 	background-color: #ddddf7;
 	height: 28px;
 	width: 28px;
@@ -235,7 +237,9 @@ justify-content: center;
 margin-top: -30px;
 }
 .user{
-	margin-top: 670px;
+	position: absolute;
+    bottom:0;
+
 }
 .btn.logout{
 	margin-top: -5px;
@@ -243,7 +247,7 @@ margin-top: -30px;
 	height: 30px;
 	border-radius: 30px;
 }
-.home .container .sidebar .navbar .user button {
+.home .container .sidebar .navbar1 .user button {
 	font-size: 13px;
 	background-color: #23BEB3;
 	color: #ddddf7;
@@ -287,6 +291,10 @@ margin-left: 210px;
 .examplee{
     font-weight: 400;
     font-size: 16px;
+}
+.btnEditProfile{
+    height: 45px;
+    width: 200px;
 }
 
 
@@ -448,11 +456,6 @@ body{
 
 .form-control
 {
-border-radius: 25px;
-}
-.form-control1
-{
-    width: 400px;
 border-radius: 25px;
 }
 .input-group-text{

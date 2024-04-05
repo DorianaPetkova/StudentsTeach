@@ -258,7 +258,7 @@ const Profile = () => {
                     </div>
                     <div>
                         {editMode ? (
-                            <button onClick={saveChanges}>Save</button>
+                            <button className='btnEditProfile' onClick={saveChanges}>Save</button>
                         ) : (
                             <button onClick={() => setEditMode(true)}>Edit</button>
                         )}
