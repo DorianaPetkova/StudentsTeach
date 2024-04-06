@@ -330,6 +330,21 @@ svg:not(:root) {
     font-size: 16px;
     font-weight: 500;
 }
+.findB-desc{
+    margin-left: 15px;
+}
+.img-findB{
+    vertical-align: middle;
+    height: 90px;
+    border-radius: 100%;
+    border-style: none;
+}
+
+
+
+
+
+
 
 
 
@@ -673,13 +688,11 @@ border-radius: 25px;
 
 /*MY BULLSHIT*/
 .react-calendar { 
-	max-width: 100%;
-	background-color: #fff;
-	color: #222;
-	border-radius: 8px;
-	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-	font-family: Arial, Helvetica, sans-serif;
-	line-height: 1.125em;
+    max-width: 100%;
+    background: white;
+    border: 1px solid #a0a096;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
    }
    .react-calendar__navigation button {
 	color: #6f48eb;

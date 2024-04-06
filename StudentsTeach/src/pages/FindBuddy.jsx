@@ -206,13 +206,18 @@ const FindBuddy = () => {
       <div>
         {searchResults.map((result, index) => (
           <div key={index} className="search-result">
-            <img src={result.photoURL} alt="Profile" />
+            <img className="img-findB" src={result.photoURL} alt="Profile" />
+                 <strong className="findB-desc">Userame:</strong> {result.displayName}
+                 <strong className="findB-desc">Gender:</strong> {result.gender}
+                 <strong className="findB-desc">Age:</strong> {result.age}
             <div>
               <p>
-                <strong>Name:</strong> {result.displayName}
+                 <strong className="findB-desc">Language:</strong> {result.preferredLanguage}
+                 <strong className="findB-desc">Subject:</strong> {result.subject}
+                 <strong className="findB-desc">Education:</strong> {result.education}
               </p>
               <p>
-                <strong>Email:</strong> {result.email}
+               
               </p>
               {/* Add more fields here if needed */}
             </div>
