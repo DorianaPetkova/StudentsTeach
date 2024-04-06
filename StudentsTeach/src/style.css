@@ -14,6 +14,8 @@
 	height: 100%;
 	display: flex;
 	overflow: hidden;
+    position: relative; /* Add relative positioning */
+    z-index: 0;
     
 }
 .home .container .sidebar {
@@ -35,7 +37,6 @@
 }
 .home .container .sidebar .navbar1 .user {
 	display: flex;
-    margin-bottom: 5px;
     margin-left: 7px;
 	gap: 10px;
 }
@@ -206,7 +207,13 @@
 	cursor: pointer;
 }
 .home.buttons{
-justify-content: center;
+    position: fixed;
+    bottom: 20px; /* Adjust vertical position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Ensure it appears above other elements */
+    display: flex;
+    justify-content: center;
 }
 .button.btn-primary.homep-btn{
 	width: 45px;
@@ -221,6 +228,7 @@ justify-content: center;
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
+    z-index: 2;
 }
 .home .container .chat .input .send button {
 	border-radius: 25px;
@@ -229,16 +237,23 @@ justify-content: center;
 .buttons{
 	border-radius: 25px;
 }
+
 .ava {
+
     vertical-align: middle;
+
     height: 110px;
+
     border-style: none;
+
 }
+
 .reg.register-link{
-	margin-left: 10px;
+	margin-top: 50px;
+	margin-left: 120px;
 }
 .col-lg-4.col-md-8.col-sm-{
-margin-top: -90px;
+margin-top: -30px;
 }
 .user{
 	position: absolute;
@@ -260,12 +275,10 @@ margin-top: -90px;
 }
 .dm{
 	margin-top: 10px;
-    font-weight: 600;
 	text-align: center;
 	text-decoration: underline;
 }
 .gc{
-    font-weight: 600;
 	text-align: center;
 	text-decoration: underline;
 }
@@ -285,7 +298,10 @@ svg:not(:root) {
     color: #fff;
     background-color: #52d5cc;
 }
-
+.profile{
+margin-top: 240px;
+margin-left: 210px;
+}
 .change-prfile-items{
     font-size: 19px;
     padding-right: 10px;
@@ -299,50 +315,86 @@ svg:not(:root) {
     height: 45px;
     width: 200px;
 }
+
 .col-lg-6.col-md-6.col-sm-12{
+
     margin-left: 120px;
+
 }
+
 .heading-profile{
+
     margin-left: 100px;
+
 }
+
 .col-lg-4.col-md-8.col-sm-12{
+
     margin-left: -50px;
+
 }
+
 .col-lg-5.col-md-6.col-sm-12{
+
     margin-top: -145px;
+
 }
+
 .btnEditProfile{
+
     border-radius: 25px;
+
     margin-top: 20px;
+
     margin-left: 120px;
+
     background-color: #4a97da;
+
     border: #3376b0;
+
     color: #fff;
+
 }
+
 .button.btn.btn-primary.findbuddy-btn{
+
     width: 280px;
+
     height: 45px;
+
     background-color: #4a97da;
+
     border: none;
+
     outline: none;
+
     border-radius: 40px;
+
     cursor: pointer;
+
     font-size: 16px;
+
     font-weight: 500;
+
 }
+
 .findB-desc{
+
     margin-left: 15px;
+
 }
+
 .img-findB{
+
     vertical-align: middle;
+
     height: 90px;
+
     border-radius: 100%;
+
     border-style: none;
+
 }
-
-
-
-
 
 
 
@@ -413,9 +465,16 @@ body{
     margin-top: -150px;
     display: flex;
     align-items: center;
+    
 }
+
+
 .becomebuddy-image{
+
     margin-top: -80px;
+.img-fluid {
+    margin-top: 100px;
+}
 }
 .signup-image{
     width: auto;
@@ -432,6 +491,35 @@ body{
     align-items: center;
 }
 
+
+.btn-calendar-create{
+
+    width: 200px;
+
+    height: 40px;
+
+    margin-top: 20px;
+
+    margin-left: 21%;
+
+    color: #fff;
+
+    background-color: #59acf5;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+}
+
 .btn.btn-primary.login-btn{
     width: 280px;
     height: 45px;
@@ -441,21 +529,6 @@ body{
     border-radius: 40px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 500;
-}
-
-.btn-calendar-create{
-    width: 200px;
-    height: 40px;
-    margin-top: 20px;
-    margin-left: 21%;
-    color: #fff;
-    background-color: #59acf5;
-    border: none;
-    outline: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 17px;
     font-weight: 500;
 }
 .btn.btn-primary.signup-btn{
@@ -480,6 +553,7 @@ body{
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
+	margin-left: 90px;
 }
 .btn.btn-primary.signup-btn.nb{
     width: 180px;
@@ -556,7 +630,11 @@ border-radius: 25px;
 }
 .text-center{
     margin-bottom: 120px;
+   
     font-size: 22px;
+}
+.img-fluid{
+    margin-top: -90px;
 }
 .advantages-list{
     text-align: center;
@@ -689,6 +767,7 @@ border-radius: 25px;
 /*MY BULLSHIT*/
 .react-calendar { 
 	width: 100%;
+	max-width: 100%;
 	background-color: #fff;
 	color: #222;
 	border-radius: 8px;
@@ -785,10 +864,12 @@ border-radius: 25px;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px; /* Adjust width as needed */
+
     height: 300px; /* Adjust height as needed */
     background-color: white;
 	color: #050505;
-    z-index: 1000;
+    z-index: 2000;
+    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow effect */
@@ -823,6 +904,7 @@ border-radius: 25px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	max-width: 400px; /* Adjust width as needed */
 	width: 100%;
+    z-index: 2;
 }
 
 .server-popup h2 {

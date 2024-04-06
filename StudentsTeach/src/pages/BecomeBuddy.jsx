@@ -63,6 +63,7 @@ const BecomeBuddy = () => {
 
       setLoading(false);
       setSuccess(true);
+      alert("You became a buddy!");
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);
@@ -182,8 +183,8 @@ const BecomeBuddy = () => {
               </select>
             </div>
             <button type="submit" className="button btn btn-primary becomebuddy-btn" disabled={loading}>
-              {loading ? "Submitting..." : "BECOME BUDDY"}
-            </button>
+                {loading ? "Submitting..." : "BECOME BUDDY"}
+              </button>
             
           </form>
           <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>

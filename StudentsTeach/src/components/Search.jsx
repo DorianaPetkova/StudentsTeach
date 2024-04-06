@@ -38,6 +38,13 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
+    // Check if the selected user is the same as the current user
+    if (user.uid === currentUser.uid) {
+      // Display an error message or perform any desired action
+      alert("You cannot chat with yourself.");
+      return;
+    }
+  
     // Check whether the chat exists
     const combinedId =
       currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
@@ -79,6 +86,7 @@ const Search = () => {
     setUser(null);
     setUsername("");
   };
+  
 
 
 

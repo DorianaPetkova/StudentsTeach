@@ -128,34 +128,36 @@ const Chats = () => {
     <div className="chats">
       <p className="dm">DM's</p>
       <div className="user-chats">
-        {chats && Object.entries(chats)
-          .sort((a, b) => {
-            if (a[1]?.pinned && !b[1]?.pinned) return -1;
-            if (!a[1]?.pinned && b[1]?.pinned) return 1;
-            return b[1]?.date - a[1]?.date;
-          })
-          .map((chat) => (
-            chat[1]?.userInfo && 
-            <div
-              className={`userChat ${chat[1]?.pinned ? 'pin' : ''}`}
-              key={chat[0]}
-              onClick={() => handleSelect(chat[1]?.userInfo)}
-            >
-              <>
-                <img
-                  src={chat[1]?.userInfo.photoURL}
-                  alt=""
-                  className="icon"
-                />
-                <span>{chat[1]?.userInfo.displayName}</span>
-                <p>{chat[1]?.lastMessage?.text}</p>
-                <div className="userChatInfo">
-                  <button onClick={() => handleDeleteChat(chat[0])}>Delete</button>
-                  <button onClick={() => handlePinChat(chat[0])}>Pin</button>
-                </div>
-              </>
-            </div>
-          ))}
+      {chats && Object.entries(chats)
+  .sort((a, b) => {
+    if (a[1]?.pinned && !b[1]?.pinned) return -1;
+    if (!a[1]?.pinned && b[1]?.pinned) return 1;
+    return b[1]?.date - a[1]?.date;
+  })
+  .map((chat) => (
+    chat[1]?.userInfo && chat[1]?.userInfo.uid !== currentUser.uid && // Check if the chat user ID is different from the current user's ID
+    <div
+      className={`userChat ${chat[1]?.pinned ? 'pin' : ''}`}
+      key={chat[0]}
+      onClick={() => handleSelect(chat[1]?.userInfo)}
+    >
+      <>
+        <img
+          src={chat[1]?.userInfo.photoURL}
+          alt=""
+          className="icon"
+        />
+        <span>{chat[1]?.userInfo.displayName}</span>
+        <p>{chat[1]?.lastMessage?.text}</p>
+        <div className="userChatInfo">
+          <button onClick={() => handleDeleteChat(chat[0])}>Delete</button>
+          <button onClick={() => handlePinChat(chat[0])}>Pin</button>
+        </div>
+      </>
+    </div>
+  ))}
+
+
       </div>
       <hr className="chat-divider" />
       <p className="gc">Group chats</p>
