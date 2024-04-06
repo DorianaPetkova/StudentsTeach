@@ -72,6 +72,7 @@ const login = () => {
       <button type="submit" className="button btn btn-primary login-btn">LOG IN</button>
       
     </form>
+    <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
     </div>
     </div>
   </div>

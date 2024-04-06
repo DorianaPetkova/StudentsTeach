@@ -186,7 +186,7 @@ const BecomeBuddy = () => {
             </button>
             
           </form>
-          <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
+          <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
         </div>
       </div>
     </div>

@@ -289,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
           {loading && "Uploading and compressing the image please wait..."}
 
       </form>
+      <span className="reg register-link">Changed your mind? <Link to="/">Go back. But please reconsider before that</Link></span>
       </div>
       </div>
     </div>
