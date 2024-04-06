@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -12,50 +12,40 @@ const FindBuddy = () => {
   const [education, setEducation] = useState("");
 
   const handleSearch = async () => {
+    // Construct the query based on the selected language, gender, subject, age, and education
+    const q = query(
+      collection(db, "buddies"),
+      // Use a combination of conditional checks to find users meeting at least one criteria
+      where("preferredLanguage", "==", language || ""),
+      where("gender", "==", gender || ""),
+      where("subject", "==", subject || ""),
+      where("age", "==", age || ""),
+      where("education", "==", education || "")
+    );
+
     try {
-      const q = query(collection(db, "buddies"));
       const querySnapshot = await getDocs(q);
       const results = [];
       querySnapshot.forEach((doc) => {
-        results.push(doc.data());
+        const data = doc.data();
+        // Check if the user meets at least one of the criteria
+        if (
+          data.preferredLanguage === language ||
+          data.gender === gender ||
+          data.subject === subject ||
+          data.age === age ||
+          data.education === education
+        ) {
+          results.push(data);
+        }
       });
-
-      // Filter the results based on the selected criteria
-      const filteredResults = results.filter((result) => {
-        // Check if the result matches at least one of the selected criteria
-        return (
-          (!language || result.preferredLanguage === language) ||
-          (!gender || result.gender === gender) ||
-          (!subject || result.subject === subject) ||
-          (!age || result.age === age) ||
-          (!education || result.education === education)
-        );
-      });
-
-      // Sort the filtered results based on the number of matches
-      filteredResults.sort((a, b) => {
-        const aMatches = calculateMatches(a);
-        const bMatches = calculateMatches(b);
-        return bMatches - aMatches; // Sort in descending order
-      });
-
-      setSearchResults(filteredResults);
+      setSearchResults(results);
     } catch (error) {
       console.error("Error fetching buddies: ", error);
     }
   };
 
-  // Helper function to calculate the number of matches for a result
-  const calculateMatches = (result) => {
-    let matches = 0;
-    if (result.preferredLanguage === language) matches++;
-    if (result.gender === gender) matches++;
-    if (result.subject === subject) matches++;
-    if (result.age === age) matches++;
-    if (result.education === education) matches++;
-    return matches;
-  };
-
+  
   return (
     <div className="find-buddy">
      
@@ -72,7 +62,8 @@ const FindBuddy = () => {
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         >
-          <option value="">Choose...</option>
+         
+         <option value="">Choose...</option>
          
          <option value="AKAN">AKAN</option>
          <option value="AMHARIC">AMHARIC</option>
@@ -137,8 +128,7 @@ const FindBuddy = () => {
           value={gender}
           onChange={(e) => setGender(e.target.value)}
         >
-          
-          <option value="">Choose...</option>
+           <option value="">Choose...</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
@@ -153,7 +143,7 @@ const FindBuddy = () => {
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         >
-           <option value="">Choose...</option>
+          <option value="">Choose...</option>
           <option value="Arts&Culture">Arts&Culture</option>
                 <option value="Biology">Biology</option>
                 <option value="Chemistry">Chemistry</option>
@@ -182,7 +172,7 @@ const FindBuddy = () => {
           value={age}
           onChange={(e) => setAge(e.target.value)}
         >
-           <option value="Choose...">Choose...</option>
+         <option value="Choose...">Choose...</option>
           <option value="<18">Under 18</option>
           <option value="18-23">18-23</option>
           <option value="23+">23+</option>
@@ -197,7 +187,7 @@ const FindBuddy = () => {
           value={education}
           onChange={(e) => setEducation(e.target.value)}
         >
-          <option value="Choose...">Choose...</option>
+           <option value="Choose...">Choose...</option>
           <option value="High school student">High school student</option>
           <option value="Bachelor's degree">Bachelor's degree</option>
           <option value="Master's degree">Master's degree</option>
@@ -233,11 +223,12 @@ const FindBuddy = () => {
             </div>
           </div>
         ))}
-        </div>
-        </div>
-        <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
       </div>
-    </div>
+      
+      </div>
+         <span className="reg register-link">Changed your mind? <Link to="/">Go back</Link></span>
+      </div>
+      </div>
     </div>
   );
 };

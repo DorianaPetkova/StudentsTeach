@@ -147,8 +147,21 @@
 }
 .whiteboard-canvas {
 	background-color: white;
+   
 	border: '1px solid black'
   }
+.Logo{
+    color: #f1f1f1;
+}
+.btn-whiteboard{
+    border-radius: 25px;
+    width: 120px;
+    height: 30px;
+    margin-right: 18px;
+    background-color: #4a97da;
+    border: #3376b0;
+    color: #fff;
+}
 
 .home .container .chat .messages .message .messageContent p {
 	color: #21282E;
@@ -243,14 +256,16 @@
     vertical-align: middle;
 
     height: 110px;
-
     border-style: none;
 
 }
 
 .reg.register-link{
+
 	margin-top: 50px;
 	margin-left: 120px;
+
+
 }
 .col-lg-4.col-md-8.col-sm-{
 margin-top: -30px;
@@ -395,7 +410,12 @@ margin-left: 210px;
     border-style: none;
 
 }
-
+.search-result{
+    margin-bottom: 40px;
+}
+.message-empty{
+    color: #151515;
+}
 
 
 
@@ -836,6 +856,19 @@ border-radius: 25px;
 	background: #f8f8fa;
 	color: #6f48eb;
 	border-radius: 0;
+   }
+   .modal-content{
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: .3rem;
+    outline: 0;
    }
    .react-calendar__tile--rangeStart {
 	border-top-right-radius: 0;

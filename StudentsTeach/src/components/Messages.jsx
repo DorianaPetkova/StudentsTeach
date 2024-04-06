@@ -40,7 +40,7 @@ const Messages = () => {
           <Message message={m} key={m.id} />
         ))
       ) : (
-        <p>Nothing here but us chickens</p>
+        <p className="message-empty">Nothing here but us chickens</p>
       )}
     </div>
   );

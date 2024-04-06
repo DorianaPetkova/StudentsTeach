@@ -274,10 +274,10 @@ const Profile = () => {
                             <button className='btnEditProfile' onClick={() => setEditMode(true)}>Edit</button>
                         )}
                     </div>
+            <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
 
                 </div>
             )}
-            <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
         </div>
         
     );

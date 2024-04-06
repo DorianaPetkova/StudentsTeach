@@ -133,8 +133,8 @@ const Whiteboard = ({ chatId }) => {
     <div>
       <canvas
         ref={canvasRef}
-        width={675}
-        height={488}
+        width={858}
+        height={480}
         onMouseDown={startDrawing}
         onMouseUp={endDrawing}
         onMouseMove={handleDraw}
@@ -143,8 +143,8 @@ const Whiteboard = ({ chatId }) => {
       />
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button onClick={clearCanvas}>Clear Canvas</button>
-          <button onClick={downloadCanvas}>Save Drawing</button> {/* Save button */}
+          <button className='btn-whiteboard' onClick={clearCanvas}>Clear Canvas</button>
+          <button className='btn-whiteboard' onClick={downloadCanvas}>Save Drawing</button> {/* Save button */}
           <input
             type="range"
             min="1"

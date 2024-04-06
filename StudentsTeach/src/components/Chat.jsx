@@ -38,7 +38,7 @@ const Chat = () => {
   return (
     <div className='chat'>
       <div className="chatInfo">
-        <span>{data.user?.displayName || data.server?.name}</span> {/* Render either user or server name */}
+        <span className='Logo'>{data.user?.displayName || data.server?.name}</span> {/* Render either user or server name */}
         <div className="chatIcons">
           <img src={whiteboard} alt='Whiteboard' onClick={toggleWhiteboard} />
           <FaCalendarAlt onClick={toggleCalendar} /> {/* Use the calendar icon component */}

@@ -128,7 +128,7 @@ const CalendarProp = () => {
                     </>
                 )}
             </p>
-            <button onClick={openModal}>Add Event</button>
+            <button onClick={openModal} className='btn-calendar-add'>Add Event</button>
 
             {/* Modal */}
             {isModalOpen && (
@@ -142,7 +142,7 @@ const CalendarProp = () => {
                             onChange={(e) => setEventText(e.target.value)}
                             placeholder="Enter event description"
                         />
-                        <button onClick={handleEventSubmit} className='btn-calendar-create'>Create</button>
+                        <button onClick={handleEventSubmit} className='btn-calendar-add'>Create</button>
                     </div>
                 </div>
             )}
