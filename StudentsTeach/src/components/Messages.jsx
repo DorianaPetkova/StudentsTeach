@@ -18,7 +18,8 @@ const Messages = () => {
         : doc(db, "chats", data.chatId);
 
       unSub = onSnapshot(collectionRef, (doc) => {
-        doc.exists() && setMessages(doc.data().messages);
+        const messagesData = doc.exists() ? doc.data().messages : [];
+        setMessages(messagesData);
       });
     }
 
@@ -27,11 +28,20 @@ const Messages = () => {
     };
   }, [data.chatId, data.server.id]);
 
+  // Render nothing if no chat is selected
+  if (!data.chatId) {
+    return null;
+  }
+
   return (
     <div className="messages">
-      {messages.map((m) => (
-        <Message message={m} key={m.id} />
-      ))}
+      {messages.length > 0 ? (
+        messages.map((m) => (
+          <Message message={m} key={m.id} />
+        ))
+      ) : (
+        <p>Nothing here but us chickens</p>
+      )}
     </div>
   );
 };

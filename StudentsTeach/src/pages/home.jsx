@@ -15,27 +15,25 @@ const Home = () => {
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
+    console.log('Popup toggled:', showPopup);
   };
 
+  console.log('Popup state:', showPopup); 
   return (
     <div className='home'>
-      <div className="buttons">
-          <p><button className="button btn-primary homep-btn"> <Link to="/findbuddy"><IoIosPersonAdd/></Link></button></p>
-          <p><button className="button btn-primary homep-btn"> <Link to="/becomebuddy"><FaBookBookmark/></Link></button></p>
-          <p><button className="button btn-primary homep-btn"> <Link to="/profile"><FaPaintBrush/></Link></button></p>
-          <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
-      {showPopup && <ServerPopup onClose={togglePopup} />}
-        </div>
-      <div className="container">
-        <SideBar />
-        <Chat />
-      </div>
-      <div className="buttons">
-          
-          <button onClick={togglePopup}><FaHandshakeAngle/>Create Server</button>
-      {showPopup && <ServerPopup onClose={togglePopup} />}
-        </div>
+    <div className="buttons">
+      <p><button className="button btn-primary homep-btn"> <Link to="/findbuddy"><IoIosPersonAdd/></Link></button></p>
+      <p><button className="button btn-primary homep-btn"> <Link to="/becomebuddy"><FaBookBookmark/></Link></button></p>
+      <p><button className="button btn-primary homep-btn"> <Link to="/profile"><FaPaintBrush/></Link></button></p>
+      <p><button className="button btn-primary homep-btn" onClick={togglePopup}><FaHandshakeAngle/></button></p>
+        {/* Conditional rendering of ServerPopup */}
+        {showPopup && <ServerPopup onClose={togglePopup} />}
     </div>
+    <div className="container">
+      <SideBar />
+      <Chat />
+    </div>
+  </div>
   );
 };
 

@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthC';
 import { db, storage } from '../firebase';
 import { doc, updateDoc,getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Profile = () => {
     const { currentUser } = useContext(AuthContext);
@@ -266,6 +267,7 @@ const Profile = () => {
 
                 </div>
             )}
+            <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
         </div>
         
     );

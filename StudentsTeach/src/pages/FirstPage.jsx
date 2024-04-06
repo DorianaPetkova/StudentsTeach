@@ -25,7 +25,7 @@ const FirstPage = () => {
             </ul>
             
             <div className="sign-up-navbar">
-              <Link className="sign-up-navbar" to="sign-up.html">
+              <Link className="sign-up-navbar" to="/register">
                   <button className="btn btn-primary signup-btn nb">SIGN UP</button>
               </Link>
             </div>
