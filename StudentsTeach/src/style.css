@@ -853,3 +853,17 @@ border-radius: 25px;
 	border-top: 1px solid white; /* Change color to white */
 	margin: 10px 0; /* Adjust margin as needed */
   }
+
+
+  .userChat.pin {
+	position: relative; /* Add relative positioning */
+}
+
+.userChat.pin::after {
+	content: "📌"; /* Add pin icon */
+	position: absolute;
+	top: 5px; /* Adjust top position as needed */
+	right: 5px; /* Adjust right position as needed */
+	font-size: 16px;
+	color: #6f48eb; /* Change color as needed */
+}

@@ -74,12 +74,16 @@ const Profile = () => {
     return (
         <div className="profile"> 
             {userData && (
-                <div>
-                    <div>
+            <div className="wrapper container-fluid-login min-vh-100">               
+              <h1 className='heading-profile'>Your profile</h1>
+               <div className='row'>
+                  <div className="col-lg-6 col-md-6 col-sm-12">
+                  <div>
                         <label htmlFor="displayName" className='change-prfile-items'>Username:</label>
                         {editMode ? (
                             <input 
                                 type="text"
+                                className='form-control'
                                 id="displayName"
                                 name="displayName"
                                 value={editedData.displayName || userData.displayName}
@@ -93,11 +97,12 @@ const Profile = () => {
                         <label htmlFor="email" className='change-prfile-items'>Email:</label>
                         <span className='examplee'>{userData.email}</span>
                     </div>
-                    <div>
+    <div>
     <label htmlFor="country" className='change-prfile-items'>Country:</label>
     {editMode ? (
         <select
             id="country"
+            className='form-control'
             name="country"
             value={editedData.country || userData.country}
             onChange={handleInputChange}
@@ -213,13 +218,14 @@ const Profile = () => {
     ) : (
         <span className='examplee'>{userData.country}</span>
     )}
-</div>
-<div>
+    </div>
+    <div>
     <label htmlFor="subject" className='change-prfile-items'>Subject:</label>
     {editMode ? (
         <select
             id="subject"
             name="subject"
+            className='form-control'
             value={editedData.subject || userData.subject}
             onChange={handleInputChange}
         >
@@ -246,7 +252,10 @@ const Profile = () => {
         <span className='examplee'>{userData.subject}</span>
     )}
 </div>
-                    <div>
+                  </div>
+                    
+                   
+                  <div className='col-lg-4 col-md-6 col-sm-12'>
                         <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
                         {editMode ? (
                             <>
@@ -254,14 +263,15 @@ const Profile = () => {
                                 {avatarUrl && <img src={avatarUrl} alt="Avatar" />}
                             </>
                         ) : (
-                            <img src={userData.photoURL} alt="Avatar" />
+                            <img src={userData.photoURL} alt="Avatar" className='ava' />
                         )}
-                    </div>
+                 </div>
+                 </div>
                     <div>
                         {editMode ? (
                             <button className='btnEditProfile' onClick={saveChanges}>Save</button>
                         ) : (
-                            <button onClick={() => setEditMode(true)}>Edit</button>
+                            <button className='btnEditProfile' onClick={() => setEditMode(true)}>Edit</button>
                         )}
                     </div>
 

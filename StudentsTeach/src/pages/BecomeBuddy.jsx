@@ -80,7 +80,7 @@ const BecomeBuddy = () => {
 
         <div className='col-lg-4 col-md-8 col-sm-'>
           <form onSubmit={handleSubmit}>
-            <h1>Become a Buddy</h1>
+            <h1>BECOME BUDDY</h1>
             <div className="form-group input-box">
               <label htmlFor="gender">Gender:</label>
               <select id="gender" className="form-control" name="gender" value={formData.gender} onChange={handleChange}>
