@@ -71,9 +71,9 @@ const BecomeBuddy = () => {
   };
 
   return (
-    <div className="wrapper container-fluid-login min-vh-100">
+    <div className="wrapper container-fluid-becomebuddy ">
       <div className='row'>
-        <div className="col-lg-7 col-md-4 col-sm-12 min-vh-100">
+        <div className="col-lg-7 col-md-4 col-sm-12">
           <div className="becomebuddy-image">
             <img src={becomebuddyimg} alt="" className="img-fluid"/>
           </div>

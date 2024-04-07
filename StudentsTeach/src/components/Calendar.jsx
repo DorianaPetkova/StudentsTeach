@@ -120,16 +120,17 @@ const CalendarProp = () => {
             <p className='text-center'>
                 <span className='bold'>Selected Date:</span>{' '}
                 {date.toDateString()}
-            </p>
-            <p className='text-center'>
+
+                <p className='text-center'>
                 {eventForSelectedDate && (
                     <>
                         <span className='bold'>Event:</span> {eventForSelectedDate.text}
                     </>
                 )}
-            </p>
-            <button onClick={openModal} className='btn-calendar-add'>Add Event</button>
-
+              </p>
+                <button onClick={openModal} className='btn-calendar-add'>Add Event</button>
+              </p>
+            
             {/* Modal */}
             {isModalOpen && (
                 <div className="modal">
