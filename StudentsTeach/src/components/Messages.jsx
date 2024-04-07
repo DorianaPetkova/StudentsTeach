@@ -5,14 +5,13 @@ import { db } from "../firebase";
 import Message from "./Message";
 
 const Messages = () => {
-  const [messages, setMessages] = useState([]);
   const { data } = useContext(ChatContext);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     let unSub;
 
     if (data.chatId) {
-      // Check if the current chat is a server chat or a user chat
       const collectionRef = data.server.id
         ? doc(db, "serverChats", data.server.id)
         : doc(db, "chats", data.chatId);
@@ -28,14 +27,13 @@ const Messages = () => {
     };
   }, [data.chatId, data.server.id]);
 
-  // Render nothing if no chat is selected
   if (!data.chatId) {
     return null;
   }
 
   return (
     <div className="messages">
-      {messages.length > 0 ? (
+      {(messages || []).length > 0 ? ( // Check if messages is undefined, default to empty array []
         messages.map((m) => (
           <Message message={m} key={m.id} />
         ))

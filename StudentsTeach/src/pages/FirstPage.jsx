@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+{/*"./img/nav-logo.png"*/}
+import navlogo from "../img/nav-logo.png";
+import firstp from "../img/distance-learning-6.png"
+
 
 const FirstPage = () => {
   return (
     <>
       <header>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <Link className="navbar-brand" to="/"><img src="images/nav-logo.png" alt="home_logo" /></Link>
+          <Link className="navbar-brand" to="/"><img src={navlogo} alt="home_logo" /></Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -46,7 +50,7 @@ const FirstPage = () => {
           </div>
           <div className="col-lg-8 col-md-7 col-sm-12 min-vh-100">
             <div className="first-page-image">
-              <img src="images/distance-learning-6.png" alt="" className="img-fluid" />
+              <img src={firstp} alt="" className="img-fluid" />
             </div>
           </div>
         </div>

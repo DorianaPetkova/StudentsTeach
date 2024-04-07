@@ -44,21 +44,27 @@ const Input = () => {
         if (serverChatSnapshot.exists()) {
           await updateDoc(serverChatRef, {
             messages: arrayUnion(messageData),
+            lastMessage: messageData, // Update the lastMessage field with the latest message
+            
           });
+          
         } else {
           await setDoc(serverChatRef, {
             id: data.server.id,
             name: data.server.name,
             messages: [messageData],
+            lastMessage: messageData, // Initialize the lastMessage field if it doesn't exist
           });
         }
   
-        data.server.members.forEach(async (memberId) => {
-          await updateDoc(doc(db, "userChats", memberId), {
-            [data.server.id + ".lastMessage"]: messageData,
-            [data.server.id + ".date"]: serverTimestamp(),
+        if (data.server.id && data.server.members && Array.isArray(data.server.members)) {
+          data.server.members.forEach(async (memberId) => {
+            await updateDoc(doc(db, "userChats", memberId), {
+              [data.server.id + ".lastMessage"]: messageData,
+              [data.server.id + ".date"]: serverTimestamp(),
+            });
           });
-        });
+        }
   
         if (img) {
           const storageRef = ref(storage, `serverChats/${data.server.id}/${uuid()}`);
@@ -75,6 +81,7 @@ const Input = () => {
                 messageData.img = downloadURL;
                 await updateDoc(serverChatRef, {
                   messages: arrayUnion(messageData),
+                  lastMessage: messageData, // Update the lastMessage field with the latest message
                 });
               });
             }
@@ -176,4 +183,4 @@ const Input = () => {
   )
 }
 
-export default Input
+export default Input;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthC';
 import { db, storage } from '../firebase';
-import { collection, query, where, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const ServerPopup = ({ onClose }) => {
@@ -51,48 +51,72 @@ const ServerPopup = ({ onClose }) => {
   };
 
   const handleCreateServer = async () => {
-    try {
-      // Generate a unique server ID using a combination of user IDs and a timestamp
-      const timestamp = new Date().getTime();
-      const serverId = `${currentUser.uid}_${timestamp}`;
-  
-      // Upload icon to Firebase Storage
-      const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);
-      await uploadBytesResumable(iconRef, icon);
-  
-      // Get the download URL of the uploaded icon
-      const iconURL = await getDownloadURL(iconRef);
-  
-      // Create the server document
-      const serverRef = await addDoc(collection(db, 'servers'), {
-        id: serverId,
-        name: serverName,
-        icon: iconURL, // Store the download URL of the icon in the Firestore document
-        members: [currentUser.uid, ...selectedUsers.map((user) => user.id)],
-      });
-  
-      // Update user documents to include reference to the server
-      for (const user of selectedUsers) {
-        const userRef = doc(db, 'users', user.id);
-        await updateDoc(userRef, {
-          servers: {
-            [serverRef.id]: true,
-          },
-        });
-      }
-  
-      // Close the popup when server is created successfully
-      onClose();
-  
-      setServerName('');
-      setIcon(null);
-      setIconName('No file chosen');
-      setSelectedUsers([]);
-      setSearchInput('');
-    } catch (error) {
-      console.error('Error creating server:', error);
+  try {
+    // Check if the current user is in the selected users list
+    if (selectedUsers.find(user => user.id === currentUser.uid)) {
+      // Show alert if the user is trying to add themselves
+      alert("You cannot add yourself to the server.");
+      return;
     }
-  };
+
+    // Check if any selected user is added twice
+    const userIds = selectedUsers.map(user => user.id);
+    if (new Set(userIds).size !== userIds.length) {
+      // Show alert if any user is added twice
+      alert("Please select each user only once.");
+      return;
+    }
+
+    // Generate a unique server ID using a combination of user IDs and a timestamp
+    const timestamp = new Date().getTime();
+    const serverId = `${currentUser.uid}_${timestamp}`;
+
+    // Upload icon to Firebase Storage
+    const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);
+    await uploadBytesResumable(iconRef, icon);
+
+    // Get the download URL of the uploaded icon
+    const iconURL = await getDownloadURL(iconRef);
+
+    // Create the server document with a lastMessage field
+    const serverRef = doc(db, 'servers', serverId);
+    await setDoc(serverRef, {
+      id: serverId,
+      name: serverName,
+      icon: iconURL, // Store the download URL of the icon in the Firestore document
+      members: [currentUser.uid, ...selectedUsers.map((user) => user.id)],
+      lastMessage: null, // Initialize the lastMessage field to null
+    });
+
+    // Retrieve icon and name from servers collection
+    const serverDoc = await getDoc(serverRef);
+    const serverData = serverDoc.data();
+    const serverChatsRef = doc(db, 'serverChats', serverId);
+    await setDoc(serverChatsRef, serverData);
+
+    // Update user documents to include a reference to the server
+    for (const user of selectedUsers) {
+      const userRef = doc(db, 'users', user.id);
+      await updateDoc(userRef, {
+        servers: {
+          [serverRef.id]: true,
+        },
+      });
+    }
+
+    // Close the popup when the server is created successfully
+    onClose();
+
+    setServerName('');
+    setIcon(null);
+    setIconName('No file chosen');
+    setSelectedUsers([]);
+    setSearchInput('');
+  } catch (error) {
+    console.error('Error creating server:', error);
+  }
+};
+
 
   return (
     <div className="server-popup">
@@ -100,9 +124,7 @@ const ServerPopup = ({ onClose }) => {
       <h2>Create Server</h2>
       <input type="text" placeholder="Server Name" value={serverName} onChange={handleServerNameChange} />
       <div className="file-input-1">
-       
         <input type="file" accept="image/*" id="file" onChange={handleIconChange} />
-       
       </div>
       <input
         type="text"
