@@ -46,76 +46,97 @@ const ServerPopup = ({ onClose }) => {
   };
 
   const handleUserSelect = (user) => {
-    setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, user]);
+    setSelectedUsers((prevSelectedUsers) => {
+      // Check if the user is already selected
+      if (prevSelectedUsers.some((selectedUser) => selectedUser.id === user.id)) {
+        // Show alert if the user is already selected
+        alert("User is already selected.");
+        return prevSelectedUsers;
+      }
+  
+      // Add the user to the selected users list
+      const newSelectedUsers = [...prevSelectedUsers, user];
+      setSearchResults((prevSearchResults) =>
+        // Filter out the selected user from the search results
+        prevSearchResults.filter((resultUser) => resultUser.id !== user.id)
+      );
+      return newSelectedUsers;
+    });
     setSearchInput('');
   };
+  
 
   const handleCreateServer = async () => {
-  try {
-    // Check if the current user is in the selected users list
-    if (selectedUsers.find(user => user.id === currentUser.uid)) {
-      // Show alert if the user is trying to add themselves
-      alert("You cannot add yourself to the server.");
-      return;
-    }
-
-    // Check if any selected user is added twice
-    const userIds = selectedUsers.map(user => user.id);
-    if (new Set(userIds).size !== userIds.length) {
-      // Show alert if any user is added twice
-      alert("Please select each user only once.");
-      return;
-    }
-
-    // Generate a unique server ID using a combination of user IDs and a timestamp
-    const timestamp = new Date().getTime();
-    const serverId = `${currentUser.uid}_${timestamp}`;
-
-    // Upload icon to Firebase Storage
-    const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);
-    await uploadBytesResumable(iconRef, icon);
-
-    // Get the download URL of the uploaded icon
-    const iconURL = await getDownloadURL(iconRef);
-
-    // Create the server document with a lastMessage field
-    const serverRef = doc(db, 'servers', serverId);
-    await setDoc(serverRef, {
-      id: serverId,
-      name: serverName,
-      icon: iconURL, // Store the download URL of the icon in the Firestore document
-      members: [currentUser.uid, ...selectedUsers.map((user) => user.id)],
-      lastMessage: null, // Initialize the lastMessage field to null
-    });
-
-    // Retrieve icon and name from servers collection
-    const serverDoc = await getDoc(serverRef);
-    const serverData = serverDoc.data();
-    const serverChatsRef = doc(db, 'serverChats', serverId);
-    await setDoc(serverChatsRef, serverData);
-
-    // Update user documents to include a reference to the server
-    for (const user of selectedUsers) {
-      const userRef = doc(db, 'users', user.id);
-      await updateDoc(userRef, {
-        servers: {
-          [serverRef.id]: true,
-        },
+    try {
+      // Check if the current user is in the selected users list
+      if (selectedUsers.find(user => user.id === currentUser.uid)) {
+        // Show alert if the user is trying to add themselves
+        alert("You cannot add yourself to the server.");
+        return;
+      }
+  
+      // Check if any selected user is added twice
+      const userIds = new Set();
+      for (const user of selectedUsers) {
+        if (userIds.has(user.id)) {
+          // Show alert if any user is added twice
+          alert("Please select each user only once.");
+          return;
+        }
+        userIds.add(user.id);
+      }
+  
+      // Generate a unique server ID using a combination of user IDs and a timestamp
+      const timestamp = new Date().getTime();
+      const serverId = `${currentUser.uid}_${timestamp}`;
+  
+      // Upload icon to Firebase Storage
+      const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);
+      await uploadBytesResumable(iconRef, icon);
+  
+      // Get the download URL of the uploaded icon
+      const iconURL = await getDownloadURL(iconRef);
+  
+      // Create the server document with a lastMessage field
+      const serverRef = doc(db, 'servers', serverId);
+      await setDoc(serverRef, {
+        id: serverId,
+        name: serverName,
+        icon: iconURL, // Store the download URL of the icon in the Firestore document
+        members: [currentUser.uid, ...selectedUsers.map((user) => user.id)],
+        lastMessage: null, // Initialize the lastMessage field to null
+        creatorId: currentUser.uid, // Add the creatorId field
       });
+  
+      // Retrieve icon and name from servers collection
+      const serverDoc = await getDoc(serverRef);
+      const serverData = serverDoc.data();
+      const serverChatsRef = doc(db, 'serverChats', serverId);
+      await setDoc(serverChatsRef, serverData);
+  
+      // Update user documents to include a reference to the server
+      for (const user of selectedUsers) {
+        const userRef = doc(db, 'users', user.id);
+        await updateDoc(userRef, {
+          servers: {
+            [serverRef.id]: true,
+          },
+        });
+      }
+  
+      // Close the popup when the server is created successfully
+      onClose();
+  
+      setServerName('');
+      setIcon(null);
+      setIconName('No file chosen');
+      setSelectedUsers([]);
+      setSearchInput('');
+    } catch (error) {
+      console.error('Error creating server:', error);
     }
-
-    // Close the popup when the server is created successfully
-    onClose();
-
-    setServerName('');
-    setIcon(null);
-    setIconName('No file chosen');
-    setSelectedUsers([]);
-    setSearchInput('');
-  } catch (error) {
-    console.error('Error creating server:', error);
-  }
-};
+  };
+  
 
 
   return (
@@ -133,12 +154,14 @@ const ServerPopup = ({ onClose }) => {
         onChange={(e) => setSearchInput(e.target.value)}
       />
       <div className="search-results">
-        {searchResults.map(user => (
-          <div key={user.id} onClick={() => handleUserSelect(user)}>
-            <img src={user.photoURL} alt="" />
-            {user.displayName}
-          </div>
-        ))}
+      {searchResults
+    .filter(user => user.id !== currentUser.uid) // Exclude current user from search results
+    .map(user => (
+      <div key={user.id} onClick={() => handleUserSelect(user)}>
+        <img src={user.photoURL} alt="" />
+        {user.displayName}
+      </div>
+    ))}
       </div>
       {selectedUsers.length > 0 && (
         <div className="selected-users">

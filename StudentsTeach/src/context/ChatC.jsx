@@ -29,10 +29,19 @@ export const ChatContextProvider = ({ children }) => {
           chatId: action.payload.id, 
           user: {}, 
         };
+      case "UPDATE_USER_DISPLAY_NAME":
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            displayName: action.payload
+          }
+        };
       default:
         return state;
     }
   };
+  
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 

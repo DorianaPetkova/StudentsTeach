@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthC";
 import { ChatContext } from "../context/ChatC";
 import { db } from "../firebase";
-import { collection, getDocs, query, onSnapshot, doc } from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore"; // Include setDoc here
 
 const Chats = () => {
   const [servers, setServers] = useState([]);
@@ -11,19 +11,57 @@ const Chats = () => {
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
-    const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
-      });
-
-      return () => {
-        unsub();
-      };
+    const getChats = async () => {
+      try {
+        const docRef = doc(db, "userChats", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setChats(docSnap.data());
+        } else {
+          console.log("No user chats found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user chats:", error);
+      }
     };
-
+  
     currentUser.uid && getChats();
   }, [currentUser.uid]);
+  
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "modified") {
+          const updatedUser = change.doc.data();
+  
+          // Update chats where the user's information is present
+          setChats(prevChats => {
+            const updatedChats = { ...prevChats };
+  
+            Object.entries(updatedChats).forEach(([chatId, chat]) => {
+              if (chat.userInfo?.uid === updatedUser.uid) {
+                updatedChats[chatId] = {
+                  ...chat,
+                  userInfo: {
+                    ...chat.userInfo,
+                    displayName: updatedUser.displayName,
+                    photoURL: updatedUser.photoURL,
+                  }
+                };
+              }
+            });
+  
+            return updatedChats;
+          });
+        }
+      });
+    });
+  
+    return () => unsubscribe();
+  }, []);
+  
+  
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "serverChats"), (snapshot) => {
@@ -73,6 +111,7 @@ const Chats = () => {
   }, [currentUser.uid]);
 
   
+  
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
@@ -102,10 +141,35 @@ const Chats = () => {
       const chatDocRef = doc(db, "chats", chatId);
       await deleteDoc(chatDocRef);
       console.log("Chat deleted successfully.");
+  
+      // Update local state to remove the deleted chat
+      setChats((prevChats) => {
+        const updatedChats = { ...prevChats };
+        delete updatedChats[chatId];
+        return updatedChats;
+      });
     } catch (error) {
       console.error("Error deleting chat:", error);
     }
   };
+  
+
+  const handleDeleteServer = async (serverId) => {
+    try {
+      // Delete server document
+      const serverDocRef = doc(db, "servers", serverId);
+      await deleteDoc(serverDocRef);
+      console.log("Server deleted successfully.");
+  
+      // Delete corresponding document in serverChats collection
+      const serverChatDocRef = doc(db, "serverChats", serverId);
+      await deleteDoc(serverChatDocRef);
+      console.log("Server chat deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting server:", error);
+    }
+  };
+  
 
   const handlePinChat = async (chatId) => {
     try {
@@ -172,6 +236,9 @@ const Chats = () => {
           {server.icon && <img src={server.icon} alt="Server Icon" className="icon" />}
             <span>{server.name}</span>
             <p>{server.lastMessage ? server.lastMessage.text || 'No messages' : 'No messages'}</p>
+            {server.creatorId === currentUser.uid && (
+              <button onClick={() => handleDeleteServer(server.id)}>Delete</button>
+            )}
           </div>
         ))}
       </div>

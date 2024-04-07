@@ -73,6 +73,7 @@ const Profile = () => {
     };
 
     return (
+        
         <div className="profile"> 
             {userData && (
             <div className="wrapper container-fluid-login min-vh-100">               

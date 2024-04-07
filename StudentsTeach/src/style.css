@@ -870,6 +870,10 @@ border-radius: 25px;
     border-radius: .3rem;
     outline: 0;
    }
+.container{
+    min-width: 95.5%;
+}
+
    .react-calendar__tile--rangeStart {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
