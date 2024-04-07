@@ -143,10 +143,10 @@ const ServerPopup = ({ onClose }) => {
       {selectedUsers.length > 0 && (
         <div className="selected-users">
           <div className="selected-line"></div>
-          <p>Selected users:</p>
+          <p className='create-serv'>Selected users:</p>
           <ul>
             {selectedUsers.map(user => (
-              <li key={user.id}>
+              <li className='create-serv' key={user.id}>
                 <img src={user.photoURL} alt="" />
                 {user.displayName}
               </li>

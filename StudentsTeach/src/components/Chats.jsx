@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthC";
 import { ChatContext } from "../context/ChatC";
 import { db } from "../firebase";
-import { collection, getDocs, query, onSnapshot, doc } from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, doc, getDoc, setDoc} from "firebase/firestore";
+
+import pinicon from "../img/pin.png"
 
 const Chats = () => {
   const [servers, setServers] = useState([]);
@@ -153,7 +155,8 @@ const Chats = () => {
                   <p>{chat[1]?.lastMessage?.text}</p>
                   <div className="userChatInfo">
                     <button onClick={() => handleDeleteChat(chat[0])}>Delete</button>
-                    <button onClick={() => handlePinChat(chat[0])}>Pin</button>
+                    <button onClick={() => handlePinChat(chat[0])}><img src={pinicon}  className="pin-img" alt='Pin'></img></button>
+                   
                   </div>
                 </>
               </div>
