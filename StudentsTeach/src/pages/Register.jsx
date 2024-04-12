@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-import attachImage from '../img/attachImage.png';
+
 import signup from '../img/sign-up-picture.png';
 
 const Register = () => {
@@ -63,7 +63,7 @@ const Register = () => {
     }
 };
 
-// Add event listener to the file input element to update label text
+// event listener for label text
 document.addEventListener('DOMContentLoaded', function() {
     var fileInput = document.getElementById('file');
     var fileLabel = document.querySelector('.custom-file-upload');

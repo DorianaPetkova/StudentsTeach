@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-{/*"./img/nav-logo.png"*/}
+
 import navlogo from "../img/nav-logo.png";
 import firstp from "../img/distance-learning-6.png"
 

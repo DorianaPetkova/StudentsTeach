@@ -929,7 +929,7 @@ border-radius: 25px;
    }
 
 
-   /* Modal Styles */
+  
 /* Modal Styles */
 .modal {
     display: block;
@@ -937,16 +937,16 @@ border-radius: 25px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px; /* Adjust width as needed */
+    width: 400px; 
 
-    height: 300px; /* Adjust height as needed */
+    height: 300px; 
     background-color: white;
 	color: #050505;
     z-index: 2000;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow effect */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .close {
@@ -976,7 +976,7 @@ border-radius: 25px;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	max-width: 400px; /* Adjust width as needed */
+	max-width: 400px; 
 	width: 100%;
     z-index: 2;
 }
@@ -984,7 +984,7 @@ border-radius: 25px;
 .server-popup h2 {
 	font-size: 1.5rem;
 	margin-bottom: 10px;
-	color: black; /* Set text color to black */
+	color: black; 
 }
 
 .server-popup input[type="text"],
@@ -1006,7 +1006,7 @@ border-radius: 25px;
 
 .server-popup .search-results div:last-child,
 .server-popup .selected-users li:last-child {
-	border-bottom: none; /* Remove border bottom for last item */
+	border-bottom: none; 
 }
 
 .server-popup .search-results img,
@@ -1022,7 +1022,7 @@ border-radius: 25px;
 }
 
 .server-popup .selected-users .selected-line {
-	border-top: 1px solid black; /* Set border top to black */
+	border-top: 1px solid black; 
 	margin-bottom: 5px;
 	width: 100%;
 }
@@ -1030,28 +1030,28 @@ border-radius: 25px;
 .server-popup .selected-users p:first-child {
 	margin-bottom: 5px;
 	font-weight: bold;
-	color: black; /* Set text color to black */
+	color: black; 
 }
 
 .file-input {
 	display: flex;
 	align-items: center;
-	justify-content: center; /* Center horizontally */
+	justify-content: center; 
 	margin-bottom: 10px;
   }
   
   .file-input label {
 	margin-right: 10px;
-	color: black; /* Set text color to black */
+	color: black;
   }
   
   .file-input span {
 	margin-left: 10px;
-	color: black; /* Set text color to black */
+	color: black;
   }
 
   .chat-divider {
 	border: none;
-	border-top: 1px solid white; /* Change color to white */
-	margin: 10px 0; /* Adjust margin as needed */
+	border-top: 1px solid white; 
+	margin: 10px 0; 
   }

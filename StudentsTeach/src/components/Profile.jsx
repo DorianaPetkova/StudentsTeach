@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthC';
 import { db, storage } from '../firebase';
-import { doc, updateDoc,getDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
     const { currentUser } = useContext(AuthContext);
@@ -14,59 +13,55 @@ const Profile = () => {
     const [avatar, setAvatar] = useState(null);
     const [avatarUrl, setAvatarUrl] = useState(null);
 
-    const fetchUserData = async () => {
-        try {
-            if (!currentUser || !currentUser.uid) {
-                console.log('User is not signed in or user ID is missing.');
-                return;
-            }
-    
-            const userRef = doc(db, 'users', currentUser.uid);
-            const docSnapshot = await getDoc(userRef);
-    
-            if (!docSnapshot.exists()) {
-                console.log('User data not found');
-                return;
-            }
-    
-            setUserData(docSnapshot.data());
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    };
-    
     useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                if (!currentUser || !currentUser.uid) {
+                    console.log('User is not signed in or user ID is missing.');
+                    return;
+                }
+        
+                const userRef = doc(db, 'users', currentUser.uid);
+                const docSnapshot = await getDoc(userRef);
+        
+                if (!docSnapshot.exists()) {
+                    console.log('User data not found');
+                    return;
+                }
+        
+                setUserData(docSnapshot.data());
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        
         fetchUserData();
     }, [currentUser]); 
 
-    // Function to handle input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditedData({ ...editedData, [name]: value });
     };
 
-    // Function to handle avatar upload
     const handleAvatarChange = (e) => {
         if (e.target.files[0]) {
             setAvatar(e.target.files[0]);
         }
     };
 
-    // Function to save edited data
     const saveChanges = async () => {
         try {
             const userRef = doc(db, 'users', currentUser.uid);
-            const updatedData = { ...userData, ...editedData }; // Merge current data with edited data
+            const updatedData = { ...userData, ...editedData };
             await updateDoc(userRef, updatedData);
             if (avatar) {
                 const storageRef = ref(storage, `avatars/${currentUser.uid}`);
                 await uploadBytes(storageRef, avatar);
                 const downloadURL = await getDownloadURL(storageRef);
                 await updateDoc(userRef, { photoURL: downloadURL });
-                setAvatarUrl(downloadURL); // Update avatarUrl state
+                setAvatarUrl(downloadURL);
             }
             setEditMode(false);
-            fetchUserData(); // Refresh user data
         } catch (error) {
             console.error('Error saving changes:', error);
         }
@@ -74,7 +69,7 @@ const Profile = () => {
 
     return (
         
-        <div className="profile"> 
+        <div className="server-popup"> 
             {userData && (
             <div className="wrapper container-fluid-login min-vh-100">               
               <h1 className='heading-profile'>Your profile</h1>

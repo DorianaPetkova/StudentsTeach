@@ -12,38 +12,38 @@ const FindBuddy = () => {
   const [education, setEducation] = useState("");
 
   const handleSearch = async () => {
-    // Construct the query based on the selected language, gender, subject, age, and education
-    const q = query(
-      collection(db, "buddies"),
-      // Use a combination of conditional checks to find users meeting at least one criteria
-      where("preferredLanguage", "==", language || ""),
-      where("gender", "==", gender || ""),
-      where("subject", "==", subject || ""),
-      where("age", "==", age || ""),
-      where("education", "==", education || "")
-    );
-
+    const q = query(collection(db, "buddies"));
+    
     try {
       const querySnapshot = await getDocs(q);
       const results = [];
+  
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        // Check if the user meets at least one of the criteria
-        if (
-          data.preferredLanguage === language ||
-          data.gender === gender ||
-          data.subject === subject ||
-          data.age === age ||
-          data.education === education
-        ) {
-          results.push(data);
+        let matchCount = 0;
+  
+        // Check if each criterion matches, and count the matches
+        if (data.preferredLanguage === language) matchCount++;
+        if (data.gender === gender) matchCount++;
+        if (data.subject === subject) matchCount++;
+        if (data.age === age) matchCount++;
+        if (data.education === education) matchCount++;
+  
+        // If the user matches at least one criterion, add them to results
+        if (matchCount > 0) {
+          results.push({ ...data, matchCount });
         }
       });
+  
+      // Sort the results based on the number of criteria matched
+      results.sort((a, b) => b.matchCount - a.matchCount);
+  
       setSearchResults(results);
     } catch (error) {
       console.error("Error fetching buddies: ", error);
     }
   };
+  
 
   
   return (
@@ -219,7 +219,7 @@ const FindBuddy = () => {
               <p>
                
               </p>
-              {/* Add more fields here if needed */}
+              
             </div>
           </div>
         ))}

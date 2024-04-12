@@ -2,10 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { db } from '../firebase';
-import { v4 as uuid } from 'uuid';
 import { AuthContext } from '../context/AuthC';
 import {
-    arrayUnion, setDoc, doc, updateDoc, serverTimestamp, getDoc,
+    arrayUnion, setDoc, doc, updateDoc, getDoc,
 } from "firebase/firestore";
 import { ChatContext } from "../context/ChatC";
 
@@ -14,7 +13,7 @@ const CalendarProp = () => {
     const [eventText, setEventText] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [loading, setLoading] = useState(true); 
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
@@ -32,15 +31,15 @@ const CalendarProp = () => {
                 const docSnapshot = await getDoc(eventRef);
                 if (docSnapshot.exists()) {
                     setEvents(docSnapshot.data().events);
-                    setLoading(false); // Set loading to false when events are fetched
+                    setLoading(false); 
                 } else {
-                    setEvents([]); // Clear events state when no events exist
-                    setLoading(false); // Set loading to false
+                    setEvents([]); 
+                    setLoading(false); 
                 }
             } catch (error) {
                 console.error('Error fetching events from Firestore:', error);
-                setEvents([]); // Clear events state on error
-                setLoading(false); // Set loading to false on error
+                setEvents([]); 
+                setLoading(false);
             }
         };
         fetchEvents();
@@ -81,7 +80,7 @@ const CalendarProp = () => {
             }
             console.log('Event added to Firestore:', event);
 
-            // Update the local state to include the newly added event
+            
             setEvents(prevEvents => [...prevEvents, event]);
         } catch (error) {
             console.error('Error adding event to Firestore:', error);
@@ -107,7 +106,7 @@ const CalendarProp = () => {
     return (
         <div className='calendar'>
             <div className='calendar-container'>
-                {loading ? ( // Show loading indicator while events are being fetched
+                {loading ? ( 
                     <p>Loading...</p>
                 ) : (
                     <Calendar

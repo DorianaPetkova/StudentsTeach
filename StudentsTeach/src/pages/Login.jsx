@@ -61,14 +61,6 @@ const login = () => {
                     </div>
 
 
-      {/*<div className="input-box">
-        <input type="email" placeholder="Email" required />
-        <i className='bx bx-user'></i>
-      </div>
-      <div className="input-box">
-        <input type="password" placeholder="Password" required />
-        <i className='bx bx-lock-alt'></i>
-  </div>*/}
       <button type="submit" className="button btn btn-primary login-btn">LOG IN</button>
       
     </form>

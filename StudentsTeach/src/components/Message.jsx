@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from '../context/AuthC';
 import { ChatContext } from '../context/ChatC';
+import { useQuery } from 'react-query'; 
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -14,52 +15,75 @@ const Message = ({ message }) => {
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
-    const fetchSenderInfo = async () => {
-      try {
-        // Fetch sender information based on the senderId
-        const senderDocRef = doc(db, 'users', message.senderId);
-        const senderDocSnap = await getDoc(senderDocRef);
-        if (senderDocSnap.exists()) {
-          setSenderInfo(senderDocSnap.data());
-        } else {
-          console.error("Sender document does not exist");
-        }
-      } catch (error) {
-        console.error("Error fetching sender information:", error);
-      }
+  
+  const { data: senderData, isLoading: senderLoading, error: senderError } = useQuery(['user', message.senderId], async () => {
+    const senderDocRef = doc(db, 'users', message.senderId);
+    const senderDocSnap = await getDoc(senderDocRef);
+    return senderDocSnap.exists() ? senderDocSnap.data() : null;
+  });
+
+  const { data: currentUserData, isLoading: currentUserLoading, error: currentUserError } = useQuery(['user', currentUser.uid], async () => {
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    const userDocSnap = await getDoc(userDocRef);
+    return userDocSnap.exists() ? userDocSnap.data() : null;
+  });
+
+  
+  useEffect(() => {
+    if (senderData) {
+      setSenderInfo(senderData);
+    }
+  }, [senderData]);
+
+  useEffect(() => {
+    if (currentUserData) {
+      setUserInfo(currentUserData);
+    }
+  }, [currentUserData]);
+
+  const isOwner = message.senderId === currentUser.uid;
+
+  // Save message to local storage
+  useEffect(() => {
+    const saveMessageToLocalstorage = () => {
+      const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      messages.push(message);
+      localStorage.setItem('messages', JSON.stringify(messages));
     };
 
-    const fetchUserInfo = async () => {
-      try {
-        // Fetch current user's information based on their UID
-        const userDocRef = doc(db, 'users', currentUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        if (userDocSnap.exists()) {
-          setUserInfo(userDocSnap.data());
-        } else {
-          console.error("User document does not exist");
-        }
-      } catch (error) {
-        console.error("Error fetching user information:", error);
-      }
+    saveMessageToLocalstorage();
+  }, [message]);
+
+  // Load messages from local storage
+  const [messagesFromLocalStorage, setMessagesFromLocalStorage] = useState([]);
+  useEffect(() => {
+    const loadMessagesFromLocalStorage = () => {
+      const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      setMessagesFromLocalStorage(messages);
     };
 
-    fetchSenderInfo();
-    fetchUserInfo();
-  }, [message.senderId, currentUser.uid]);
+    loadMessagesFromLocalStorage();
+  }, []);
 
   return (
     <div 
       ref={ref} 
-      className={`message ${message.senderId === currentUser.uid && "owner"}`} 
+      className={`message ${isOwner ? "owner" : ""}`} 
     >
       <div className="messageInfo">
-        {senderInfo && (
-          <img
-            src={message.senderId === currentUser.uid ? userInfo?.photoURL : senderInfo.photoURL}
-            alt=""
-          />
+        {senderLoading || currentUserLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            {senderInfo && (
+              <img
+                src={isOwner ? userInfo?.photoURL : senderInfo.photoURL}
+                alt=""
+              />
+            )}
+          </>
         )}
       </div>
       <div className="messageContent">

@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthC';
 import { db, storage } from '../firebase';
-import { collection, query, where, getDocs, addDoc, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  setDoc,
+  getDoc,
+} from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const ServerPopup = ({ onClose }) => {
@@ -12,28 +21,30 @@ const ServerPopup = ({ onClose }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [enterPressed, setEnterPressed] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const q = query(
-          collection(db, 'users'),
-          where('displayName', '==', searchInput)
-        );
+        const q = query(collection(db, 'users'), where('displayName', '==', searchInput));
         const querySnapshot = await getDocs(q);
         const usersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setSearchResults(usersData);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setEnterPressed(false); // Ensure enterPressed is set to false after fetching users
       }
     };
 
-    if (searchInput.trim() !== '') {
-      fetchUsers();
-    } else {
-      setSearchResults([]);
+    if (enterPressed) {
+      fetchUsers(); 
     }
-  }, [searchInput]);
+
+    return () => {
+      setEnterPressed(false); // Cleanup function to reset enterPressed on unmount or re-render
+    };
+  }, [searchInput, enterPressed]);
 
   const handleServerNameChange = (e) => {
     setServerName(e.target.value);
@@ -46,75 +57,54 @@ const ServerPopup = ({ onClose }) => {
   };
 
   const handleUserSelect = (user) => {
-    setSelectedUsers((prevSelectedUsers) => {
-      // Check if the user is already selected
-      if (prevSelectedUsers.some((selectedUser) => selectedUser.id === user.id)) {
-        // Show alert if the user is already selected
-        alert("User is already selected.");
-        return prevSelectedUsers;
-      }
-  
-      // Add the user to the selected users list
-      const newSelectedUsers = [...prevSelectedUsers, user];
-      setSearchResults((prevSearchResults) =>
-        // Filter out the selected user from the search results
-        prevSearchResults.filter((resultUser) => resultUser.id !== user.id)
-      );
-      return newSelectedUsers;
-    });
+    if (selectedUsers.some((selectedUser) => selectedUser.id === user.id)) {
+      alert("User is already selected.");
+      return;
+    }
+
+    setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, user]);
+    setSearchResults((prevSearchResults) =>
+      prevSearchResults.filter((resultUser) => resultUser.id !== user.id)
+    );
     setSearchInput('');
   };
-  
 
   const handleCreateServer = async () => {
     try {
-      // Check if the current user is in the selected users list
       if (selectedUsers.find(user => user.id === currentUser.uid)) {
-        // Show alert if the user is trying to add themselves
         alert("You cannot add yourself to the server.");
         return;
       }
-  
-      // Check if any selected user is added twice
-      const userIds = new Set();
-      for (const user of selectedUsers) {
-        if (userIds.has(user.id)) {
-          // Show alert if any user is added twice
-          alert("Please select each user only once.");
-          return;
-        }
-        userIds.add(user.id);
+
+      const userIds = new Set(selectedUsers.map(user => user.id));
+      if (userIds.size !== selectedUsers.length) {
+        alert("Please select each user only once.");
+        return;
       }
-  
-      // Generate a unique server ID using a combination of user IDs and a timestamp
+
       const timestamp = new Date().getTime();
       const serverId = `${currentUser.uid}_${timestamp}`;
-  
-      // Upload icon to Firebase Storage
+
       const iconRef = ref(storage, `server_icons/${serverId}_${icon.name}`);
       await uploadBytesResumable(iconRef, icon);
-  
-      // Get the download URL of the uploaded icon
+
       const iconURL = await getDownloadURL(iconRef);
-  
-      // Create the server document with a lastMessage field
+
       const serverRef = doc(db, 'servers', serverId);
       await setDoc(serverRef, {
         id: serverId,
         name: serverName,
-        icon: iconURL, // Store the download URL of the icon in the Firestore document
+        icon: iconURL,
         members: [currentUser.uid, ...selectedUsers.map((user) => user.id)],
-        lastMessage: null, // Initialize the lastMessage field to null
-        creatorId: currentUser.uid, // Add the creatorId field
+        lastMessage: null,
+        creatorId: currentUser.uid,
       });
-  
-      // Retrieve icon and name from servers collection
+
       const serverDoc = await getDoc(serverRef);
       const serverData = serverDoc.data();
       const serverChatsRef = doc(db, 'serverChats', serverId);
       await setDoc(serverChatsRef, serverData);
-  
-      // Update user documents to include a reference to the server
+
       for (const user of selectedUsers) {
         const userRef = doc(db, 'users', user.id);
         await updateDoc(userRef, {
@@ -123,10 +113,9 @@ const ServerPopup = ({ onClose }) => {
           },
         });
       }
-  
-      // Close the popup when the server is created successfully
+
       onClose();
-  
+
       setServerName('');
       setIcon(null);
       setIconName('No file chosen');
@@ -136,8 +125,12 @@ const ServerPopup = ({ onClose }) => {
       console.error('Error creating server:', error);
     }
   };
-  
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      setEnterPressed(true);
+    }
+  };
 
   return (
     <div className="server-popup">
@@ -152,16 +145,17 @@ const ServerPopup = ({ onClose }) => {
         placeholder="Search Users"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
       <div className="search-results">
-      {searchResults
-    .filter(user => user.id !== currentUser.uid) // Exclude current user from search results
-    .map(user => (
-      <div key={user.id} onClick={() => handleUserSelect(user)}>
-        <img src={user.photoURL} alt="" />
-        {user.displayName}
-      </div>
-    ))}
+        {searchResults
+          .filter(user => user.id !== currentUser.uid) // Exclude current user from search results
+          .map(user => (
+            <div key={user.id} onClick={() => handleUserSelect(user)}>
+              <img src={user.photoURL} alt="" />
+              {user.displayName}
+            </div>
+          ))}
       </div>
       {selectedUsers.length > 0 && (
         <div className="selected-users">

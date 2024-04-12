@@ -33,7 +33,7 @@ const Messages = () => {
 
   return (
     <div className="messages">
-      {(messages || []).length > 0 ? ( // Check if messages is undefined, default to empty array []
+      {(messages || []).length > 0 ? ( 
         messages.map((m) => (
           <Message message={m} key={m.id} />
         ))

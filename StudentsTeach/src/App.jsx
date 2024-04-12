@@ -21,7 +21,7 @@ function App() {
       // Redirect to login if there is no current user
       return <Navigate to="/" />;
     } else {
-      // Render the protected route content if there is a current user
+      
       return children;
     }
   };

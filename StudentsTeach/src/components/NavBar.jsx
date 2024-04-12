@@ -38,22 +38,22 @@ const NavBar = () => {
     // Save the last opened chat ID in local storage
     localStorage.setItem('lastOpenedChatId', lastOpenedChatId);
     // Perform logout
+
     signOut(auth);
   };
 
   return (
     <div className='navbar1'>
       <div className='user'>
-        {userInfo && userInfo.photoURL && (
+      {userInfo && userInfo.photoURL && (
           <>
-            <img src={userInfo.photoURL} alt="" />
-            <span>{userInfo.displayName}</span>
+          <img src={userInfo.photoURL} alt="" />
+          <span>{userInfo.displayName}</span>
           </>
         )}
         <button className='btn logout'  onClick={() => { signOut(auth); handleLogout(); }}>Log out</button>
-      </div>
+        </div>
     </div>
   );
 };
-
 export default NavBar;

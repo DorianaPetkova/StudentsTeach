@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { db } from '../firebase';
-import { addDoc, collection, onSnapshot, deleteDoc, query, getDocs, writeBatch, doc } from 'firebase/firestore';
+import { collection, onSnapshot, writeBatch, doc, deleteDoc, getDocs } from 'firebase/firestore';
 
 const Whiteboard = ({ chatId }) => {
   const canvasRef = useRef(null);
@@ -9,7 +9,6 @@ const Whiteboard = ({ chatId }) => {
   const [pencilSize, setPencilSize] = useState(2);
   const [selectedColor, setSelectedColor] = useState('#000000');
   const [drawBuffer, setDrawBuffer] = useState([]);
-  const [saving, setSaving] = useState(false); // New state to track saving process
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, `whiteboards/${chatId}/drawings`), (snapshot) => {
@@ -93,24 +92,31 @@ const Whiteboard = ({ chatId }) => {
 
       await batch.commit();
     } catch (error) {
-      console.error(error);
+      console.error('Error adding drawings to Firestore:', error);
     }
   };
 
   const clearCanvas = async () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    //delete drawings from firebase
-    const drawingsQuery = query(collection(db, `whiteboards/${chatId}/drawings`));
-    const drawingsSnapshot = await getDocs(drawingsQuery);
-    const batch = writeBatch(db);
-    drawingsSnapshot.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
-    await batch.commit();
+    try {
+      const drawingsRef = collection(db, `whiteboards/${chatId}/drawings`);
+      const querySnapshot = await getDocs(drawingsRef);
+  
+      const batch = writeBatch(db);
+      querySnapshot.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+  
+      await batch.commit();
+      
+      // Once drawings are deleted from Firestore, clear the canvas locally
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    } catch (error) {
+      console.error('Error clearing canvas:', error);
+    }
   };
+  
 
   const changeColor = (color) => {
     setSelectedColor(color);
@@ -133,7 +139,7 @@ const Whiteboard = ({ chatId }) => {
     <div>
       <canvas
         ref={canvasRef}
-        width={858}
+        width={800}
         height={480}
         onMouseDown={startDrawing}
         onMouseUp={endDrawing}
@@ -144,7 +150,7 @@ const Whiteboard = ({ chatId }) => {
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <button className='btn-whiteboard' onClick={clearCanvas}>Clear Canvas</button>
-          <button className='btn-whiteboard' onClick={downloadCanvas}>Save Drawing</button> {/* Save button */}
+          <button className='btn-whiteboard' onClick={downloadCanvas}>Save Drawing</button> 
           <input
             type="range"
             min="1"

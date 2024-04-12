@@ -1,6 +1,14 @@
 import React, { useContext, useState } from "react";
 import {
-  collection, query, where, getDocs, setDoc, doc, updateDoc, serverTimestamp, getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthC";
@@ -11,16 +19,12 @@ const Search = () => {
   const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
-    const q = query(
-      collection(db, "users"),
-      where("displayName", "==", username)
-    );
+    const q = query(collection(db, "users"), where("displayName", "==", username));
 
     try {
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-      });
+      const userData = querySnapshot.docs.map((doc) => doc.data());
+      setUser(userData.length ? userData[0] : null);
     } catch (error) {
       console.error("Error searching for user:", error);
     }
@@ -33,14 +37,13 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
-    // Check if the selected user is the same as the current user
+    if (!user) return;
+
     if (user.uid === currentUser.uid) {
-      // Display an error message or perform any desired action
       alert("You cannot chat with yourself.");
       return;
     }
 
-    // Check whether the chat exists
     const combinedId =
       currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
 
@@ -48,31 +51,34 @@ const Search = () => {
       const chatDocRef = doc(db, "chats", combinedId);
       const chatDocSnap = await getDoc(chatDocRef);
 
-      // If the chat document does not exist, create it
       if (!chatDocSnap.exists()) {
-        // Create a chat in chats collection
         await setDoc(chatDocRef, { messages: [] });
 
-        // Create user chats
-        await updateDoc(doc(db, "userChats", currentUser.uid), {
-          [combinedId + ".userInfo"]: {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-          },
-          [combinedId + ".date"]: serverTimestamp(),
-        });
+        const userInfo = {
+          uid: user.uid,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        };
 
-        await updateDoc(doc(db, "userChats", user.uid), {
+        const currentUserChatData = {
+          [combinedId + ".userInfo"]: userInfo,
+          [combinedId + ".date"]: serverTimestamp(),
+        };
+
+        const otherUserChatData = {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
             photoURL: currentUser.photoURL,
           },
           [combinedId + ".date"]: serverTimestamp(),
-        });
+        };
 
-        // Clear the user and username state
+        await Promise.all([
+          updateDoc(doc(db, "userChats", currentUser.uid), currentUserChatData),
+          updateDoc(doc(db, "userChats", user.uid), otherUserChatData),
+        ]);
+
         setUser(null);
         setUsername("");
       } else {
