@@ -38,7 +38,7 @@ const Search = () => {
 
   const handleSelect = async () => {
     if (!user) return;
-
+//we prevent chatting with yourself and adding a user twice because it will create an error in firestore with the ids
     if (user.uid === currentUser.uid) {
       alert("You cannot chat with yourself.");
       return;

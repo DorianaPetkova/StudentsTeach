@@ -23,6 +23,7 @@
 }
 .home .container .sidebar {
 	flex: 1;
+    min-width: 212px;
 	background-color: #21282E;
 	position: relative;
     border-right: 1px solid #c9b4cd7a;
@@ -39,10 +40,16 @@
 .home .container .sidebar .navbar .logo {
 	font-weight: bold;
 }
+.bold{
+    margin-bottom: -30px;
+}
 .home .container .sidebar .navbar1 .user {
-	display: flex;
-    margin-left: 7px;
-	gap: 10px;
+    display: flex;
+    margin-bottom: 8px;
+    width: 212px;
+    margin-left: 1%;
+    gap: 8px;
+    justify-content: center;
     align-items: center;
 }
 .home .container .sidebar .navbar1 .user img {
@@ -53,7 +60,9 @@
 	border-radius: 50%;
 	object-fit: cover;
 }
-
+.registration-link{
+    padding-left: 1.25rem;
+}
 .home .container .sidebar .search {
 	border-bottom: 1px solid gray;
 }
@@ -71,11 +80,13 @@
 }
 .home .container .sidebar .userChat {
 	padding: 10px;
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	color: white;
-	cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: space-around;
 }
 .home .container .sidebar .userChat:hover {
 	background-color: #2f2d52;
@@ -86,6 +97,7 @@
 	border-radius: 50%;
 	object-fit: cover;
 }
+
 .home .container .sidebar .userChat .userChatInfo span {
 	font-size: 18px;
 	font-weight: 500;
@@ -152,17 +164,18 @@
 }
 .whiteboard-canvas {
 	background-color: white;
-   
-	border: '1px solid black'
   }
-
+.react-calendar button{
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
 .Logo{
     color: #f1f1f1;
 }
 .btn-whiteboard{
     border-radius: 25px;
-    width: 120px;
-    height: 30px;
+    width: 140px;
+    height: 36px;
     margin-right: 18px;
     background-color: #4a97da;
     border: #3376b0;
@@ -172,7 +185,7 @@
     border-radius: 25px !important;
     width: 130px;
     font-size: 16px;
-    margin-top: 15px;
+    margin-top: 5px;
     height: 36px;
     margin-bottom: 18px;
     background-color: #4a97da;
@@ -270,18 +283,16 @@
 .ava {
 
     vertical-align: middle;
-
-    height: 110px;
+    height: 95px;
     border-style: none;
 
 }
+.col-lg-5.col-md-8.col-sm-0{
 
-.reg.register-link{
-	margin-top: 50px;
-	margin-left: 25%;
+    margin-top: -120px;
 }
-.col-lg-4.col-md-8.col-sm-{
-margin-top: -30px;
+.bb-back-link{
+    margin-left: 23%;
 }
 .user{
 	position: absolute;
@@ -327,22 +338,31 @@ svg:not(:root) {
     background-color: #52d5cc;
 }
 .profile{
-margin-top: 240px;
-margin-left: 210px;
+
+    margin-top: 240px;
+
+    margin-left: 210px;
+
 }
 .change-prfile-items{
     font-size: 19px;
     padding-right: 10px;
     text-decoration: underline;
+
+    color: #0e0e0e;
+}
+
+.mar-top{
+
+    margin-top: 10px;
+
 }
 .examplee{
     font-weight: 400;
     font-size: 16px;
+    color: #0e0e0e;
 }
-.btnEditProfile{
-    height: 45px;
-    width: 200px;
-}
+
 
 .col-lg-6.col-md-6.col-sm-12{
 
@@ -350,40 +370,64 @@ margin-left: 210px;
 
 }
 
+
 .heading-profile{
-
-    margin-left: 100px;
-
+    color: #0e0e0e;
 }
 
 .col-lg-4.col-md-8.col-sm-12{
-
     margin-left: -50px;
-
 }
-
-.col-lg-5.col-md-6.col-sm-12{
-
-    margin-top: -145px;
-
+.btn.pin{
+    width: 30px;
+    height: 30px;
+    background-color: #21282E;
 }
-
-.btnEditProfile{
-
-    border-radius: 25px;
-
-    margin-top: 20px;
-
-    margin-left: 120px;
-
-    background-color: #4a97da;
-
-    border: #3376b0;
-
+.btn.delete{
+    width: 30px;
+    height: 30px;
+    background-color: #21282E;
+}
+.back-link{
+    color: #0e0e0e;
+    margin-left: 32%;
+}
+.fb.back-link{
     color: #fff;
-
+    margin-left: 2.5%;
+}
+.col-lg-7.col-md-6.col-sm-12{
+    margin-top: 60px;
+}
+.btnEditProfile{
+    border-radius: 25px;
+    margin-top: 71px;
+    margin-left: 33%;
+    background-color: #4a97da;
+    border: #3376b0;
+    color: #fff;
+    height: 45px;
+    width: 200px;
 }
 
+.btnSaveProfile{
+    border-radius: 25px;
+    margin-left: 33%;
+    margin-top: 50px;
+    background-color: #4a97da;
+    border: #3376b0;
+    color: #fff;
+    height: 45px;
+    width: 200px;
+}
+.center-bio{
+    margin-top: 42px;
+    text-align: center;
+}
+.row.view{
+    margin-top: 20px;
+    padding-left: 50px !important;
+}
 .button.btn.btn-primary.findbuddy-btn{
 
     width: 280px;
@@ -431,8 +475,20 @@ margin-left: 210px;
 }
 
 
+.col-lg-6.col-md-6.col-sm-6
 
+{
 
+    align-items: right;
+
+}
+.messages-ch{
+    font-weight: 300;
+}
+.col-lg-6.col-md-6.col-sm-6.view{
+    align-items: right;
+margin-top: 20px;
+}
 
 
 
@@ -470,8 +526,23 @@ body{
     margin-left: 50px;
 
 }
+.ava-rec{
+    width: 364.2px;
+}
+
+.input-bio{
+    width: 364.2px !important; /* Set the width to 100% */
+    min-height: 46px; /* Set a minimum height */
+    resize: vertical; /* Allow vertical resizing */
+    overflow-y: auto; /* Add a scrollbar when content overflows */
+}
+.container-fluid-profile{
+    margin-top: 60px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
 .container-fluid-login{
-    margin-top: 180px;
+    margin-top: 60px;
     margin-left: 50px;
     margin-right: 50px;
 }
@@ -497,22 +568,23 @@ body{
 .min-vh-100{
     height: calc(100vh - 56px);
 }
+
 .login-image {
     width: auto;
     height: 100%;
-    margin-top: -150px;
+    margin-top: 0px;
     display: flex;
     align-items: center;
-    
 }
 
-
+.col-lg-4.col-md-8.col-sm-0{
+    margin-top: 70px;
+} 
 .becomebuddy-image{
-
-    margin-top: -80px;
-.img-fluid {
     margin-top: 50px;
 }
+.col-lg-4.col-md-8.col-sm-{
+margin-top: 20px;
 }
 .signup-image{
     width: auto;
@@ -567,6 +639,8 @@ body{
     border-radius: 40px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 5px;
     font-weight: 500;
 }
 .btn.btn-primary.signup-btn{
@@ -599,7 +673,7 @@ body{
     background-color: #4a97da;
     border: none;
     outline: none;
-    margin-left: 25px;
+    margin-top: 1px;
     margin-right: 15px;
     border-radius: 50px;
     cursor: pointer;
@@ -615,6 +689,8 @@ body{
     border-radius: 40px;
     cursor: pointer;
     font-size: 15px;
+    margin-top: 1px !important;
+    margin-bottom: 0px !important;
     font-weight: 500;
 }
 .form-group.form-check {
@@ -636,6 +712,7 @@ border-radius: 25px;
 }
 
 .form-check{
+    padding-left: none !important;
     justify-content: space-between;
 }
 .collapse.navbar-collapse{
@@ -671,12 +748,18 @@ border-radius: 25px;
     margin-bottom: 25px;
     font-size: 22px;
 }
+
 .pin-img{
     height: 10px;
     width: 10px;
 }
+
 .img-fluid{
-    margin-top: -90px;
+    margin-top: -80px;
+}
+
+.img-bb{
+    margin-top: 10px;
 }
 .advantages-list{
     text-align: center;
@@ -686,10 +769,10 @@ border-radius: 25px;
 }
 .about-service{
     text-align: center;
-    margin-top: 140px;
+    margin-top: 250px;
     margin-left: 180px;
     margin-right: 180px;
-    margin-bottom: 140px;
+    margin-bottom: 110px;
     font-size: 26px;
     font-weight: 300;
     color: #e6e6e6;
@@ -731,16 +814,14 @@ border-radius: 25px;
     cursor: pointer;
   }
   
-  /*.custom-file-upload input[type="file"]::after {
-    content: attr(data-file-name);
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }*/
+
+  .col-lg-6.col-md-6.col-sm-5{
+
+    display: flex;
+
+    justify-content: center;
+
+  }
   
   
   .custom-file-upload input[type="file"]::after {
@@ -761,23 +842,32 @@ border-radius: 25px;
     display: none;
   }
 
-/*.custom-file-upload input[type="file"]::before {
-   
-    display: inline-block;
-    border-radius: 5px;
-    color: #464646;
-    cursor: pointer;
-  }  
-  .custom-file-upload input[type="file"]::-webkit-file-upload-button {
-    visibility: hidden;
-  }*/
+
 
   .line{
     background-color: #242c32;
   }
-  .form-check{
-    justify-content: space-between;
+  
+
+
+  .line1{
+    margin-top: -15px;
+
+    background-color: #242c32;
 }
+
+
+
+  .line2{
+
+    margin-top: -20px;
+
+    margin-bottom: 140px;
+
+    background-color: #242c32;
+
+  }
+
 .collapse.navbar-collapse{
     margin-right: 50px;
 }
@@ -843,7 +933,7 @@ border-radius: 25px;
 	color: #d10000;
    } */
    .react-calendar__month-view__days{
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: 20px;
    }
    .react-calendar__month-view__weekdays{
@@ -970,17 +1060,37 @@ border-radius: 25px;
 	position: fixed;
 	top: 50%;
 	left: 50%;
+    padding-top: 70px !important;
 	transform: translate(-50%, -50%);
 	background-color: white;
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	max-width: 400px; 
+	max-width: 800px; 
+    height: 550px;
 	width: 100%;
     z-index: 2;
 }
 
+.server-popup.small {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	max-width: 345px; 
+    height: auto;
+	width: 100%;
+    z-index: 2;
+}
+.input.pop.up.server{
+    width: 288.8px;
+}
 .server-popup h2 {
 	font-size: 1.5rem;
 	margin-bottom: 10px;
@@ -989,16 +1099,19 @@ border-radius: 25px;
 
 .server-popup input[type="text"],
 .server-popup input[type="file"] {
-	width: calc(100% - 20px);
 	margin-bottom: 10px;
+    height: 46px;
 	padding: 8px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
-
+.heading-ch-pr{
+    color: #0e0e0e;
+}
 .server-popup .search-results div,
 .server-popup .selected-users li {
 	display: flex;
+    color: #000;
 	align-items: center;
 	cursor: pointer;
 	padding: 8px;
@@ -1032,6 +1145,8 @@ border-radius: 25px;
 	font-weight: bold;
 	color: black; 
 }
+
+
 
 .file-input {
 	display: flex;

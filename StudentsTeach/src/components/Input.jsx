@@ -26,7 +26,7 @@ const Input = () => {
   const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
-    // Start listening for new messages after sending a message
+    // we listen for new message after sending one
     if (isListening) {
       const chatId = data.server.id || data.chatId;
       const serverChatRef = doc(db, data.server.id ? "serverChats" : "chats", chatId);
@@ -39,18 +39,32 @@ const Input = () => {
   }, [isListening, data.server, data.chatId]);
 
   const handleSend = async () => {
+    // checking if img and text are empty so we dont have to check everything afterwards
+    if (!text.trim() && !img) {
+      return; 
+    }
+  
     const chatId = data.server.id || data.chatId;
     const serverChatRef = doc(db, data.server.id ? "serverChats" : "chats", chatId);
-    const messageData = {
-      id: uuid(),
-      text,
-      senderId: currentUser.uid,
-      date: Timestamp.now(),
-      img: null,
-    };
-
+  
     try {
       const chatSnapshot = await getDoc(serverChatRef);
+      const messageData = {
+        id: uuid(),
+        text: text.trim() ? text : null,
+        senderId: currentUser.uid,
+        date: Timestamp.now(),
+        img: null,
+      };
+  
+      if (img) {
+        const storageRef = ref(storage, `${data.server.id || "chats"}/${chatId}/${uuid()}`);
+        const uploadTask = uploadBytesResumable(storageRef, img);
+        const uploadSnapshot = await uploadTask;
+        const downloadURL = await getDownloadURL(uploadSnapshot.ref);
+        messageData.img = downloadURL;
+      }
+  
       if (chatSnapshot.exists()) {
         await updateDoc(serverChatRef, {
           messages: arrayUnion(messageData),
@@ -64,31 +78,16 @@ const Input = () => {
           lastMessage: messageData,
         });
       }
-
-      if (img) {
-        const storageRef = ref(storage, `${data.server.id || "chats"}/${chatId}/${uuid()}`);
-        const uploadTask = uploadBytesResumable(storageRef, img);
-        uploadTask.on("state_changed", null, (error) => {
-          console.error("Error uploading image:", error);
-        }, async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          messageData.img = downloadURL;
-          await updateDoc(serverChatRef, {
-            messages: arrayUnion(messageData),
-            lastMessage: messageData,
-          });
-        });
-      }
     } catch (error) {
       console.error("Error sending message:", error);
     }
-
+  
     setText("");
     setImg(null);
-
-   
     setIsListening(true);
   };
+  
+  
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {

@@ -27,43 +27,43 @@ const Register = () => {
     const country = e.target.country.value;
 
     try {
+       
         const res = await createUserWithEmailAndPassword(auth, email, password);
+        
+       
         const date = new Date().getTime();
-        const storageRef = ref(storage, `${displayName + date}`);
+        const storageRef = ref(storage, `${displayName + date}/${file.name}`);
+        await uploadBytesResumable(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
 
-        await uploadBytesResumable(storageRef, file).then(() => {
-            getDownloadURL(storageRef).then(async (downloadURL) => {
-                try {
-                    await updateProfile(res.user, {
-                        displayName,
-                        photoURL: downloadURL,
-                    });
-
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        uid: res.user.uid,
-                        displayName,
-                        email,
-                        photoURL: downloadURL,
-                        subject,
-                        education,
-                        country,
-                    });
-
-                    await setDoc(doc(db, "userChats", res.user.uid), {});
-                    navigate("/login");
-                } catch (error) {
-                    console.log("Error:", error);
-                    setLoading(false);
-                }
-            });
+      
+        await updateProfile(res.user, {
+            displayName,
+            photoURL: downloadURL,
         });
+        await setDoc(doc(db, "users", res.user.uid), {
+            uid: res.user.uid,
+            displayName,
+            email,
+            photoURL: downloadURL,
+            subject,
+            education,
+            country,
+        });
+
+        // we create this for later use when the user starts chatting with others
+        await setDoc(doc(db, "userChats", res.user.uid), {});
+
+        
+        navigate("/login");
     } catch (error) {
         console.log("Error:", error);
         setLoading(false);
     }
 };
 
-// event listener for label text
+
+//event listener for the file so that the user knows what they've chosen for the avatar
 document.addEventListener('DOMContentLoaded', function() {
     var fileInput = document.getElementById('file');
     var fileLabel = document.querySelector('.custom-file-upload');
@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
   return (
     <div className="wrapper container-fluid-signup min-vh-100">
        <div className="row">
-       <div className="col-lg-7 col-md-4 col-sm-12 min-vh-100">
+       <div className="col-lg-6 col-md-4 col-sm-12 min-vh-100">
                 <div className="signup-image">
                     <img src={signup} alt="" className="img-fluid"/>
                 </div>
             </div>
-            <div className='col-lg-4 col-md-8 col-sm-0'>
+            <div className='col-lg-5 col-md-8 col-sm-0'>
       <form onSubmit={handleSubmit}>
         <h1>SIGN UP</h1>
         <div className="form-row">
@@ -272,24 +272,12 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
         </div>
 
-        {/*<input required style={{ display: "none" }} type="file" id="file" name="file" />
-        <label htmlFor="file">
-            <img src={attachImage} alt="" />
-            <span>Add an avatar</span>
-  </label>*/}
-
         <div className="form-group form-check">
-            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-            <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
             <span className="reg register-link">Already have an account? <Link to="/login">Log In!</Link></span>
-            
           </div>
-
           <button type="submit" className="btn btn-primary signup-btn " disabled={loading}>SIGN UP</button>
-          {loading && "Uploading and compressing the image please wait..."}
-
       </form>
-      <span className="reg register-link">Changed your mind? <Link to="/">Go back. But please reconsider before that</Link></span>
+      <span className="registration-link">Changed your mind? <Link to="/">Go back.</Link></span>
       </div>
       </div>
     </div>

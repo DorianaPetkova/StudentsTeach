@@ -108,7 +108,7 @@ const Whiteboard = ({ chatId }) => {
   
       await batch.commit();
       
-      // Once drawings are deleted from Firestore, clear the canvas locally
+      // once the drawings are deleted, clear them locally (minimize reads)
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -139,8 +139,8 @@ const Whiteboard = ({ chatId }) => {
     <div>
       <canvas
         ref={canvasRef}
-        width={800}
-        height={480}
+        width={1274}
+        height={600}
         onMouseDown={startDrawing}
         onMouseUp={endDrawing}
         onMouseMove={handleDraw}

@@ -18,13 +18,19 @@ const FirstPage = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <Link className="nav-link" to="#adv">Advantages</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">How to use?<span className="sr-only">(current)</span></Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">About us<span className="sr-only">(current)</span></Link>
+              <a className="nav-link" href="#adv">Advantages</a>
+
+</li>
+
+<li className="nav-item">
+
+<a className="nav-link" href="#owerv">Overview<span className="sr-only">(current)</span></a>
+
+</li>
+
+<li className="nav-item">
+
+<a className="nav-link" href="#offer">Functions<span className="sr-only">(current)</span></a>
               </li>
             </ul>
             
@@ -55,7 +61,7 @@ const FirstPage = () => {
           </div>
         </div>
       </div>
-
+      <hr className="line1" id="owerv" />
       <div className="about-service">
         <p>This website was created so that students from all over the world could <span className="accent-abt">study together</span> <br />and better each other.
           <br />StudentsTeach is just what the name emplies - students in both university and high-school <span className="accent-abt"><br />give knowledge</span> to their peers about topics that they're interested in.
@@ -88,14 +94,22 @@ const FirstPage = () => {
           </div>
         </div>
       </div>
-
+      <hr className="line2" id="offer" />
       <div className="container-fluid-expect">
-        <h3 className="text-center" style={{ textDecoration: 'underline' }}>What to expect from StudentsTeach?</h3>
+      <h3 className="text-center" style={{ textDecoration: 'underline' }}>What do we offer?</h3>
         <p className="expectations">After registration, the <span className="accent-abt">user will be able to: </span></p>
-        <p className="expectations-list"> ✓ view their chats <br /> ✓ modify their profile<br /> ✓ search for a study buddy to help with their chosen subject 
+        <p className="expectations-list"> ✓ view their chats <br /> ✓ create their servers <br /> ✓ modify their profile<br /> ✓ search for a study buddy to help with their chosen subject  <br /> ✓ become a study buddy and help others
           <br /> <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="plus" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-          </svg> There is a whiteboard function, through which students can<span className="accent-wtex"> simplify their explanations</span> and <span className="accent-wtex">save</span> their materials for later review. </p>
+          </svg> whiteboard function, through which students can<span className="accent-wtex"> simplify their explanations</span> and <span className="accent-wtex">save</span> their materials for later review. 
+          <br />
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="plus" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+          </svg> calendar function, through which students can<span className="accent-wtex"> create shared events</span> and study together anytime.
+          
+          
+          </p>
+          
       </div>
     </>
   );

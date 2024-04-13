@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, onSnapshot } from "firebase/firestore";
 import { useNavigate, Link } from 'react-router-dom';
 import { auth, db, storage } from "../firebase";
 import becomebuddyimg from '../img/become-buddy-img.png';
@@ -8,6 +8,9 @@ const BecomeBuddy = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState('');
+  const [bio, setBio] = useState(''); 
+  const [displayName, setDisplayName] = useState('');
   const [formData, setFormData] = useState({
     gender: '',
     age: '',
@@ -17,12 +20,55 @@ const BecomeBuddy = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+    const unsubscribeAuth = auth.onAuthStateChanged((userAuth) => {
       setUser(userAuth);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribeAuth();
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return; // leave if user is null to save time
+    }
+  
+    const fetchUserData = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setDisplayName(userData.displayName);
+          setAvatar(userData.photoURL);
+          setBio(userData.bio);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+    fetchUserData();
+  
+    //we update the buddies collection when user data changes for accuracy
+    const unsubscribeUser = onSnapshot(doc(db, 'users', user.uid), (snapshot) => {
+      if (snapshot.exists()) {
+        const userData = snapshot.data();
+        setDisplayName(userData.displayName);
+        setAvatar(userData.photoURL);
+        setBio(userData.bio); 
+  
+        
+        const buddyDocRef = doc(db, 'buddies', user.uid);
+        setDoc(buddyDocRef, {
+          ...userData,
+          photoURL: userData.photoURL,
+          bio: userData.bio 
+        }, { merge: true });
+      }
+    });
+  
+    return () => unsubscribeUser();
+  }, [user]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,32 +81,39 @@ const BecomeBuddy = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       if (!user) {
         throw new Error('User not authenticated');
       }
-
+  
+      const { subjectToTeach, gender, age, preferredLanguage } = formData;
+  
+      
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       if (!userDoc.exists()) {
         throw new Error('User data not found');
       }
-
+  
       const userData = userDoc.data();
-      const { subjectToTeach, gender, age, preferredLanguage } = formData;
-
+  
+      
+      const { education } = userData;
+  
+      // save the fetched data from users and the new one to firestore
       await setDoc(doc(db, "buddies", user.uid), {
         uid: user.uid,
-        displayName: userData.displayName,
-        email: userData.email,
-        photoURL: userData.photoURL,
+        displayName,
+        email: user.email,
+        photoURL: avatar, 
         subject: subjectToTeach,
-        education: userData.education,
+        education: education, 
         gender,
         age,
         preferredLanguage,
+        bio
       });
-
+  
       setLoading(false);
       setSuccess(true);
       alert("You became a buddy!");
@@ -69,8 +122,10 @@ const BecomeBuddy = () => {
       setLoading(false);
     }
   };
+  
 
   return (
+    //we use options for easier use and saving in the database
     <div className="wrapper container-fluid-becomebuddy ">
       <div className='row'>
         <div className="col-lg-7 col-md-4 col-sm-12">
@@ -127,58 +182,58 @@ const BecomeBuddy = () => {
               <label htmlFor="preferredLanguage">Preferred Language:</label>
               <select id="preferredLanguage" className="form-control" name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange}>
               <option value="">Select Preferred Language</option>
-              <option value="AKAN">AKAN</option>
-              <option value="AMHARIC">AMHARIC</option>
-              <option value="ARABIC">ARABIC</option>
-              <option value="AZERBAIJANI">AZERBAIJANI</option>
-              <option value="BELARUSAN">BELARUSAN</option>
-              <option value="BENGALI">BENGALI</option>
-              <option value="BULGARIAN">BULGARIAN</option>
-              <option value="BURMESE">BURMESE</option>
-              <option value="CHINESE">CHINESE</option>
-              <option value="CHITTAGONIAN">CHITTAGONIAN</option>
-              <option value="CZECH">CZECH</option>
-              <option value="DUTCH">DUTCH</option>
-              <option value="ENGLISH">ENGLISH</option>
-              <option value="FARSI">FARSI</option>
-              <option value="FRENCH">FRENCH</option>
-              <option value="GERMAN">GERMAN</option>
-              <option value="GREEK">GREEK</option>
-              <option value="HAUSA">HAUSA</option>
-              <option value="HINDI">HINDI</option>
-              <option value="HUNGARIAN">HUNGARIAN</option>
-              <option value="ITALIAN">ITALIAN</option>
-              <option value="JAPANESE">JAPANESE</option>
-              <option value="KAZAKH">KAZAKH</option>
-              <option value="KHMER">KHMER</option>
-              <option value="KOREAN">KOREAN</option>
-              <option value="MALAGASY">MALAGASY</option>
-              <option value="MALAY">MALAY</option>
-              <option value="MANDARIN">MANDARIN</option>
-              <option value="NEPALI">NEPALI</option>
-              <option value="PASHTO">PASHTO</option>
-              <option value="POLISH">POLISH</option>
-              <option value="PORTUGUESE">PORTUGUESE</option>
-              <option value="ROMANIAN">ROMANIAN</option>
-              <option value="RUSSIAN">RUSSIAN</option>
-              <option value="RWANDA">RWANDA</option>
-              <option value="SERBO-CROATIAN">SERBO-CROATIAN</option>
-              <option value="SHONA">SHONA</option>
-              <option value="SINHALA">SINHALA</option>
-              <option value="SPANISH">SPANISH</option>
-              <option value="SOMALI">SOMALI</option>
-              <option value="SUNDA">SUNDA</option>
-              <option value="SWEDISH">SWEDISH</option>
-              <option value="TAGALOG">TAGALOG</option>
-              <option value="TELUGU">TELUGU</option>
-              <option value="THAI">THAI</option>
-              <option value="TURKISH">TURKISH</option>
-              <option value="UKRAINIAN">UKRAINIAN</option>
-              <option value="URDU">URDU</option>
-              <option value="UZBEK">UZBEK</option>
-              <option value="VIETNAMESE">VIETNAMESE</option>
-              <option value="YORUBA">YORUBA</option>
-              <option value="ZULU">ZULU</option>
+              <option value="AKAN">Akan</option>
+<option value="AMHARIC">Amharic</option>
+<option value="ARABIC">Arabic</option>
+<option value="AZERBAIJANI">Azerbaijani</option>
+<option value="BELARUSAN">Belarusan</option>
+<option value="BENGALI">Bengali</option>
+<option value="BULGARIAN">Bulgarian</option>
+<option value="BURMESE">Burmese</option>
+<option value="CHINESE">Chinese</option>
+<option value="CHITTAGONIAN">Chittagonian</option>
+<option value="CZECH">Czech</option>
+<option value="DUTCH">Dutch</option>
+<option value="ENGLISH">English</option>
+<option value="FARSI">Farsi</option>
+<option value="FRENCH">French</option>
+<option value="GERMAN">German</option>
+<option value="GREEK">Greek</option>
+<option value="HAUSA">Hausa</option>
+<option value="HINDI">Hindi</option>
+<option value="HUNGARIAN">Hungarian</option>
+<option value="ITALIAN">Italian</option>
+<option value="JAPANESE">Japanese</option>
+<option value="KAZAKH">Kazakh</option>
+<option value="KHMER">Khmer</option>
+<option value="KOREAN">Korean</option>
+<option value="MALAGASY">Malagasy</option>
+<option value="MALAY">Malay</option>
+<option value="MANDARIN">Mandarin</option>
+<option value="NEPALI">Nepali</option>
+<option value="PASHTO">Pashto</option>
+<option value="POLISH">Polish</option>
+<option value="PORTUGUESE">Portuguese</option>
+<option value="ROMANIAN">Romanian</option>
+<option value="RUSSIAN">Russian</option>
+<option value="RWANDA">Rwanda</option>
+<option value="SERBO-CROATIAN">Serbo-Croatian</option>
+<option value="SHONA">Shona</option>
+<option value="SINHALA">Sinhala</option>
+<option value="SPANISH">Spanish</option>
+<option value="SOMALI">Somali</option>
+<option value="SUNDA">Sunda</option>
+<option value="SWEDISH">Swedish</option>
+<option value="TAGALOG">Tagalog</option>
+<option value="TELUGU">Telugu</option>
+<option value="THAI">Thai</option>
+<option value="TURKISH">Turkish</option>
+<option value="UKRAINIAN">Ukrainian</option>
+<option value="URDU">Urdu</option>
+<option value="UZBEK">Uzbek</option>
+<option value="VIETNAMESE">Vietnamese</option>
+<option value="YORUBA">Yoruba</option>
+<option value="ZULU">Zulu</option>
 
               </select>
             </div>
@@ -187,7 +242,7 @@ const BecomeBuddy = () => {
               </button>
             
           </form>
-          <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
+          <span className="bb-back-link">Changed your mind? <Link to="/home">Go back</Link></span>
         </div>
       </div>
     </div>

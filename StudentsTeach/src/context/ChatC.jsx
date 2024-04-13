@@ -13,14 +13,14 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const [isListening, setIsListening] = useState(false);
-
+//each of these is called when the user clicks between chats/servers
   const chatReducer = (state, action) => {
     console.log(action.type);
     switch (action.type) {
       case "CHANGE_USER":
-        const { displayName, ...rest } = action.payload; // Extracting displayName
+        const { displayName, ...rest } = action.payload; 
         return {
-          user: rest, // Setting user object without displayName
+          user: rest, 
           chatId:
             currentUser.uid > action.payload.uid
               ? currentUser.uid + action.payload.uid

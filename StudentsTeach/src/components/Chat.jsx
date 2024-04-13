@@ -14,7 +14,7 @@ const Chat = () => {
   const [showWhiteboard, setShowWhiteboard] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showInput, setShowInput] = useState(true);
-  const [userDisplayName, setUserDisplayName] = useState(null); // Add this line
+  const [userDisplayName, setUserDisplayName] = useState(null); 
 
   useEffect(() => {
     let unsubscribeUser;

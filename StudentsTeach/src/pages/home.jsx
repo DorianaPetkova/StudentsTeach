@@ -28,14 +28,11 @@ const Home = () => {
   return (
     <div className='home'>
     <div className="buttons">
-      <p><button className="button btn-primary homep-btn"> <Link to="/findbuddy"><IoIosPersonAdd/></Link></button></p>
-      <p><button className="button btn-primary homep-btn"> <Link to="/becomebuddy"><FaBookBookmark/></Link></button></p>
-      <p><button className="button btn-primary homep-btn"> <Link to="/profile"><FaPaintBrush/></Link></button></p>
+      <p><Link to="/findbuddy"><button className="button btn-primary homep-btn"> <IoIosPersonAdd/></button></Link></p>
+      <p><Link to="/becomebuddy"><button className="button btn-primary homep-btn"> <FaBookBookmark/></button></Link></p>
       <p><button className="button btn-primary homep-btn" onClick={togglePopupCP}><FaPaintBrush/></button></p>
-        {/* Conditional rendering of ServerPopup */}
         {showPopupCP && <Profile onClose={togglePopupCP} />}
       <p><button className="button btn-primary homep-btn" onClick={togglePopup}><FaHandshakeAngle/></button></p>
-        {/* Conditional rendering of ServerPopup */}
         {showPopup && <ServerPopup onClose={togglePopup} />}
     </div>
     <div className="container">

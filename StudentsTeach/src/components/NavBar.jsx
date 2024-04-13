@@ -35,10 +35,8 @@ const NavBar = () => {
   }
 
   const handleLogout = () => {
-    // Save the last opened chat ID in local storage
+    
     localStorage.setItem('lastOpenedChatId', lastOpenedChatId);
-    // Perform logout
-
     signOut(auth);
   };
 

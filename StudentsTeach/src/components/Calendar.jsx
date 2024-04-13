@@ -17,7 +17,7 @@ const CalendarProp = () => {
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
-
+//fetch events when the component mounts
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -89,7 +89,7 @@ const CalendarProp = () => {
         setEventText('');
         closeModal();
     };
-
+//this is for rendering the red dot 
     const tileContent = ({ date, view }) => {
         if (view === 'month') {
             const eventDates = events.map(event => new Date(event.date));
@@ -128,7 +128,7 @@ const CalendarProp = () => {
                 )}
               </p>
                 <button onClick={openModal} className='btn-calendar-add'>Add Event</button>
-              </p>
+            </p>
             
             {/* Modal */}
             {isModalOpen && (

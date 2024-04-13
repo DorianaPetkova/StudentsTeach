@@ -33,7 +33,7 @@ const ServerPopup = ({ onClose }) => {
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
-        setEnterPressed(false); // Ensure enterPressed is set to false after fetching users
+        setEnterPressed(false); 
       }
     };
 
@@ -42,7 +42,7 @@ const ServerPopup = ({ onClose }) => {
     }
 
     return () => {
-      setEnterPressed(false); // Cleanup function to reset enterPressed on unmount or re-render
+      setEnterPressed(false); // resetting enter pressed, (another attempt to minimize reads by waiting for enter)
     };
   }, [searchInput, enterPressed]);
 
@@ -68,7 +68,7 @@ const ServerPopup = ({ onClose }) => {
     );
     setSearchInput('');
   };
-
+//again looking at other possibilities to avoid errors in firestore
   const handleCreateServer = async () => {
     try {
       if (selectedUsers.find(user => user.id === currentUser.uid)) {
@@ -133,15 +133,16 @@ const ServerPopup = ({ onClose }) => {
   };
 
   return (
-    <div className="server-popup">
+    <div className="server-popup small">
       <div className="close" onClick={onClose}>&times;</div>
       <h2>Create Server</h2>
-      <input type="text" placeholder="Server Name" value={serverName} onChange={handleServerNameChange} />
+      <input type="text" className='input pop up server' placeholder="Server Name" value={serverName} onChange={handleServerNameChange} />
       <div className="file-input-1">
         <input type="file" accept="image/*" id="file" onChange={handleIconChange} />
       </div>
       <input
-        type="text"
+        type="text" 
+        className='input pop up server' 
         placeholder="Search Users"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}

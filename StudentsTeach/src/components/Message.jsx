@@ -45,7 +45,7 @@ const Message = ({ message }) => {
 
   const isOwner = message.senderId === currentUser.uid;
 
-  // Save message to local storage
+  // save messages to local storage to try and limit the reads (yes we had a problem with that)
   useEffect(() => {
     const saveMessageToLocalstorage = () => {
       const messages = JSON.parse(localStorage.getItem('messages')) || [];
@@ -56,7 +56,7 @@ const Message = ({ message }) => {
     saveMessageToLocalstorage();
   }, [message]);
 
-  // Load messages from local storage
+  
   const [messagesFromLocalStorage, setMessagesFromLocalStorage] = useState([]);
   useEffect(() => {
     const loadMessagesFromLocalStorage = () => {

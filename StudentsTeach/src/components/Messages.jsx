@@ -10,7 +10,7 @@ const Messages = () => {
 
   useEffect(() => {
     let unSub;
-
+//we check if its a server or a dm, then we render the messages
     if (data.chatId) {
       const collectionRef = data.server.id
         ? doc(db, "serverChats", data.server.id)

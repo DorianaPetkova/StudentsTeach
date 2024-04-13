@@ -6,7 +6,7 @@ import { ChatContextProvider } from "./context/ChatC";
 import { QueryClient, QueryClientProvider } from 'react-query';
 const queryClient = new QueryClient();
 
-
+//we wrap the root in different contexts and the query provider to ensure smooth running
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
  

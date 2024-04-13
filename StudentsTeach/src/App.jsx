@@ -18,7 +18,7 @@ function App() {
     const { currentUser } = useContext(AuthContext);
   
     if (!currentUser) {
-      // Redirect to login if there is no current user
+      //redirecting to login if not logged in to ensure safe data
       return <Navigate to="/" />;
     } else {
       
@@ -28,6 +28,7 @@ function App() {
 
 
   return (
+    //routes for easier use
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<FirstPage />} />

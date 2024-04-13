@@ -5,7 +5,7 @@ import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
 
-const Profile = () => {
+const Profile = ({ onClose }) => {
     const { currentUser } = useContext(AuthContext);
     const [userData, setUserData] = useState(null);
     const [editedData, setEditedData] = useState({});
@@ -54,6 +54,8 @@ const Profile = () => {
             const userRef = doc(db, 'users', currentUser.uid);
             const updatedData = { ...userData, ...editedData };
             await updateDoc(userRef, updatedData);
+            updatedData.bio = editedData.bio || userData.bio;
+    
             if (avatar) {
                 const storageRef = ref(storage, `avatars/${currentUser.uid}`);
                 await uploadBytes(storageRef, avatar);
@@ -66,18 +68,16 @@ const Profile = () => {
             console.error('Error saving changes:', error);
         }
     };
+    
 
-    return (
-        
-        <div className="server-popup"> 
-            {userData && (
-            <div className="wrapper container-fluid-login min-vh-100">               
-              <h1 className='heading-profile'>Your profile</h1>
-               <div className='row'>
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                  <div>
-                        <label htmlFor="displayName" className='change-prfile-items'>Username:</label>
-                        {editMode ? (
+    const renderEditMode = () => (
+        <div className="edit-mode">
+            <h1 className='heading-ch-pr'>Edit Profile</h1>
+            {
+                <div className='row'>
+                    <div className="col-lg-6 col-md-6 col-sm-6">
+                    <label htmlFor="displayName" className='change-prfile-items'>Username:</label>
+                        
                             <input 
                                 type="text"
                                 className='form-control'
@@ -86,17 +86,10 @@ const Profile = () => {
                                 value={editedData.displayName || userData.displayName}
                                 onChange={handleInputChange}
                             />
-                        ) : (
-                            <span className='examplee'>{userData.displayName}</span>
-                        )}
-                    </div>
-                    <div>
-                        <label htmlFor="email" className='change-prfile-items'>Email:</label>
-                        <span className='examplee'>{userData.email}</span>
-                    </div>
-    <div>
+                       
+                            <div>
     <label htmlFor="country" className='change-prfile-items'>Country:</label>
-    {editMode ? (
+   
         <select
             id="country"
             className='form-control'
@@ -212,13 +205,11 @@ const Profile = () => {
   <option value="Malta">Malta</option>
   <option value="Marshall Islands">Marshall Islands</option>
         </select>
-    ) : (
-        <span className='examplee'>{userData.country}</span>
-    )}
+   
     </div>
     <div>
     <label htmlFor="subject" className='change-prfile-items'>Subject:</label>
-    {editMode ? (
+    
         <select
             id="subject"
             name="subject"
@@ -245,39 +236,101 @@ const Profile = () => {
             <option value="Physics">Physics</option>
             <option value="Social Science">Social Science</option>
         </select>
-    ) : (
-        <span className='examplee'>{userData.subject}</span>
-    )}
-</div>
-                  </div>
-                    
-                   
-                  <div className='col-lg-4 col-md-6 col-sm-12'>
-                        <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
-                        {editMode ? (
+            
+        </div>
+
+
+
+                    </div>
+        <div className="col-lg-6 col-md-6 col-sm-6">
+                    <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
+                        
                             <>
-                                <input type="file" id="avatar" name="avatar" onChange={handleAvatarChange} />
+                                <input type="file" id="avatar" name="avatar" className='ava-rec' onChange={handleAvatarChange} />
                                 {avatarUrl && <img src={avatarUrl} alt="Avatar" />}
                             </>
-                        ) : (
-                            <img src={userData.photoURL} alt="Avatar" className='ava' />
-                        )}
-                 </div>
-                 </div>
-                    <div>
-                        {editMode ? (
-                            <button className='btnEditProfile' onClick={saveChanges}>Save</button>
-                        ) : (
-                            <button className='btnEditProfile' onClick={() => setEditMode(true)}>Edit</button>
-                        )}
-                    </div>
-            <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
-                </div>
-            )}
-            <span className="reg register-link">Changed your mind? <Link to="/home">Go back</Link></span>
+                        
+                         <div className='mar-top'>
+                            <label htmlFor="email" className='change-prfile-items'>Email:</label>
+                            <span className='examplee'>{userData.email}</span>
+                        </div>
+                        <label htmlFor="bio" className='change-prfile-items'>Bio:</label>
+                        
+        <input 
+            type="text"
+            className='input-bio' 
+            id="bio"
+            name="bio"
+            value={editedData.bio || ''}
+            onChange={handleInputChange}
+            maxLength={200}
+        />
+       
         </div>
+    </div>}
+            <button className='btnSaveProfile' onClick={saveChanges}>Save</button>
+        </div>
+    );
+
+    // return when not in edit mode
+    const renderDisplayMode = () => (
         
+        <div className="display-mode">
+             <div className="close" onClick={onClose}>&times;</div>
+            <h1 className='heading-ch-pr'>View Profile</h1>
+            {userData && (
+             <div className='row view'>
+             <div className="col-lg-6 col-md-6 col-sm-6 view">
+            
+            <div>
+                    <label className='change-prfile-items'>Username:</label>
+
+                    <span className='examplee'>{userData.displayName}</span>
+            </div>
+             
+             <div>
+             <label htmlFor="country" className='change-prfile-items'>Country:</label>
+
+             <span className='examplee'>{userData.country}</span>
+             </div>          
+
+            <div>
+                        <label htmlFor="subject" className='change-prfile-items'>Subject:</label>
+                        <span className='examplee'>{userData.subject}</span>
+            </div>
+             </div>
+
+
+             <div className="col-lg-6 col-md-6 col-sm-6">
+                <div> 
+                    <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
+                    <img src={userData.photoURL} alt="Avatar" className='ava' />
+                </div>
+            
+                <div>
+                    <label htmlFor="email" className='change-prfile-items'>Email:</label>
+                    <span className='examplee'>{userData.email}</span>
+                </div>  
+             </div>    
+            </div>   
+        )}
+ {userData && (
+                    <div className='center-bio'>
+                          <label htmlFor="bio" className='change-prfile-items'>Bio:</label>
+                          <span className='examplee'>{userData.bio}</span>
+                    </div> 
+ )}
+            <button className='btnEditProfile' onClick={() => setEditMode(true)}>Edit</button>
+           
+        </div>
+    );
+
+    return (
+        <div className="server-popup">
+            {editMode ? renderEditMode() : renderDisplayMode()}
+        </div>
     );
 };
 
 export default Profile;
+

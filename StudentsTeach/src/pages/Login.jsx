@@ -8,12 +8,11 @@ import loginimg from '../img/log-in-img.png';
 
 const login = () => {
   const navigate = useNavigate();
+  //checking if the user exists using firebase authentication with email and password
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
-    
-
     try 
     {
        await signInWithEmailAndPassword(auth, email, password);
@@ -39,7 +38,7 @@ const login = () => {
               
             </div>
         </div>
-<div className='col-lg-4 col-md-8 col-sm-'>
+        <div className='col-lg-4 col-md-8 col-sm-0'>
     <form onSubmit={handleSubmit}>
       <h1>LOG IN</h1>
 
@@ -54,14 +53,11 @@ const login = () => {
                       <input type="password" className="form-control" id="exampleInputPassword1" required/>
                     </div>
 
-                    <div className="form-group form-check">
-                      <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                      <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
+                    <button type="submit" className="button btn btn-primary login-btn">LOG IN</button>
+
+      <div className="form-group form-check">
                       <span className="reg register-link">Don't have an account? <Link to="/register">Sign up!</Link></span>
                     </div>
-
-
-      <button type="submit" className="button btn btn-primary login-btn">LOG IN</button>
       
     </form>
     </div>
