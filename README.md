@@ -120,6 +120,7 @@
         <p>The project was created by the one and only: “Brain Train”</p>
         <p>Frontend: Irina Semenyakina - <a href="mailto:kittifeya@gmail.com">kittifeya@gmail.com</a></p>
         <p>Backend: Doriana Petkova – <a href="mailto:doriana.petkova@gmail.com">doriana.petkova@gmail.com</a></p>
+<img src="https://m.media-amazon.com/images/M/MV5BZjg2ZjViMTktNWQ1Yy00ODZiLWE1OTgtNDY3MjI0OGUyNjNhXkEyXkFqcGdeQXVyNTk4NDI4NTE@._V1_.jpg" alt="Group Photo">
     </footer>
 </body>
 </html>
