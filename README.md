@@ -92,7 +92,7 @@
         <img src="Presenting/Screenshot (13).png" alt="HomePage">
         <p>Create an account, after creating it, the app redirects you to the Log In page.</p>
        <img src="Presenting/Screenshot (10).png" alt="Sign Up">
-       <img src="Presenting/Screenshot (11).png" alt="Log In">
+       <img src="Presenting/Screenshot (9).png" alt="Log In">
         <p>After you log in you will be able to see your chats. If no chat has been selected an appropriate message shows.</p>
         <img src="Presenting/Screenshot (20).png" alt="Nothing here but us monkeys">
         <p>From the logout button you can log out of your account – it redirects you to the index page.</p>
