@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div className="form-row">
             <div className="form-group col-6">
-                <label htmlFor="inputSubject">Subject</label>
+                <label htmlFor="inputSubject">Subject to learn</label>
                 <select id="inputSubject" className="form-control" name='subject'>
                 <option value="Any">Any</option>
             <option value="Arts&Culture">Arts&Culture</option>

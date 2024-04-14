@@ -306,7 +306,6 @@ const Profile = ({ onClose }) => {
                     <label htmlFor="photoURL" className='change-prfile-items'>Avatar:</label>
                     <img src={userData.photoURL} alt="Avatar" className='ava' />
                 </div>
-            
                 <div>
                     <label htmlFor="email" className='change-prfile-items'>Email:</label>
                     <span className='examplee'>{userData.email}</span>
